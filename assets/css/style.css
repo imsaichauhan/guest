@@ -278,12 +278,15 @@ nav {
     filter: blur(5px);
     transition: filter 1s ease;
     pointer-events: none;
+    user-select: none; /* Prevent text selection */
 }
 
 .blur-content.revealed {
     filter: blur(0);
     pointer-events: auto;
+    user-select: text; /* Allow selection after reveal */
 }
+
 
 .venue-details {
     position: relative;
