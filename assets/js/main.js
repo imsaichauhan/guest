@@ -166,38 +166,20 @@ function handleRsvpResponse(data) {
 
     rsvpMessage.textContent = '';
 
-    const thankYouMessage = document.getElementById('thankyou-message');
-    const thankYouSubtext = document.getElementById('thankyou-subtext');
-
     if (data.rsvp === 'Yes') {
         showRsvpMessage('Thank you for your response! Can’t wait to celebrate together! 🎉', 'success');
-        
-        // Update thank-you message dynamically
-        thankYouMessage.textContent = "Can't wait to celebrate together! 🎉";
-        thankYouSubtext.textContent = "This is going to be one for the books.";
-
         setTimeout(() => {
-            document.getElementById('rsvp').classList.remove('active');
-            document.getElementById('thankyou-section').classList.add('active');
-            document.getElementById('thankyou-section').classList.add('fade-in');
-            document.getElementById('whatsapp-container').style.display = 'block';
+            thankyouSection.classList.add('active');
+            whatsappContainer.style.display = 'block';
         }, 2000);
     } else {
         showRsvpMessage("We'll miss you! If plans change, you know where to find us. 😊", 'info');
-        
-        // Update thank-you message for "No" responses
-        thankYouMessage.textContent = "We'll miss you! 😢";
-        thankYouSubtext.textContent = "If plans change, you know where to find us.";
-
         setTimeout(() => {
-            document.getElementById('rsvp').classList.remove('active');
-            document.getElementById('thankyou-section').classList.add('active');
-            document.getElementById('thankyou-section').classList.add('fade-in');
-            document.getElementById('whatsapp-container').style.display = 'none';
+            thankyouSection.classList.add('active');
+            whatsappContainer.style.display = 'none';
         }, 2000);
     }
 }
-
 
 // Reveal surprise details
 function revealSurprise() {
