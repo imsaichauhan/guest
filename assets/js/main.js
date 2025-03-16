@@ -129,6 +129,7 @@ function submitRSVP() {
     
     const script = document.createElement('script');
     script.src = `${CONFIG.API_URL}?inviteCode=${inviteCode}&rsvp=${rsvpValue}&foodPreference=${foodValue}&callback=handleRsvpResponse`;
+    
     const timeout = setTimeout(() => {
         showRsvpMessage('Request timed out. Please try again.', 'error');
         resetRsvpButton();
@@ -151,18 +152,26 @@ function handleRsvpResponse(data) {
 
     rsvpMessage.textContent = '';
     
-    welcomeSection.classList.remove('active');
-    thankyouSection.classList.add('active');
-    thankyouSection.classList.add('fade-in');
-
-    // Show WhatsApp link only if attending
+    // Show appropriate message based on RSVP response
     if (data.rsvp === 'Yes') {
-        showRsvpMessage('Thank you for your response! Can't wait to celebrate together! 🎉', 'success');
-        whatsappContainer.style.display = 'block';
+        showRsvpMessage('Thank you for your response! Can\'t wait to celebrate together! 🎉', 'success');
     } else {
-        showRsvpMessage("We'll miss you! If plans change, you know where to find us. 😊", 'info');
-        whatsappContainer.style.display = 'none';
+        showRsvpMessage('We\'ll miss you! If plans change, you know where to find us. 😊', 'info');
     }
+    
+    // Wait a moment before transitioning to the thank you section
+    setTimeout(() => {
+        welcomeSection.classList.remove('active');
+        thankyouSection.classList.add('active');
+        thankyouSection.classList.add('fade-in');
+        
+        // Show WhatsApp link only if attending
+        if (data.rsvp === 'Yes') {
+            whatsappContainer.style.display = 'block';
+        } else {
+            whatsappContainer.style.display = 'none';
+        }
+    }, 2000);
 }
 
 // Show error message
