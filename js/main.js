@@ -1,18 +1,18 @@
 // Configuration
 const CONFIG = {
     // API endpoint to your Google Apps Script
-    API_URL: 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID_HERE/exec',
+    API_URL: 'https://script.google.com/macros/s/AKfycbxKyBpFntHQpVd2CnNC1ko39w-yPSZhDXpWKyDDo8_kOFBvc_-kbCmzT0RKuKIsJRCg/exec',
     // WhatsApp group link
-    WHATSAPP_LINK: 'https://chat.whatsapp.com/YOUR_GROUP_LINK',
+    WHATSAPP_LINK: 'https://chat.whatsapp.com/EGyQOOsqYllJZRNtNDTvQ9',
     // Event details
     EVENT: {
-        DATE_TIME: 'August 15, 2023 at 7:00 PM',
+        DATE_TIME: 'March 25, 2025 at 12:00 PM',
         VENUE: 'Crystal Garden Resort',
-        GOOGLE_MAPS: 'https://goo.gl/maps/YOUR_LOCATION_LINK',
+        GOOGLE_MAPS: 'https://www.google.com/maps/place/Munnar,+Kerala+685612/@10.0806496,77.0641779,15z/data=!3m1!4b1!4m6!3m5!1s0x3b0799794d099a6d:0x63250e5553c7e0c!8m2!3d10.0889333!4d77.0595248!16zL20vMDFydmpi?entry=ttu&g_ep=EgoyMDI1MDMxMi4wIKXMDSoASAFQAw%3D%3D',
         ITEMS: 'Your beautiful self, comfortable clothes, and lots of energy!',
     },
     // Countdown target date (YYYY, MM-1, DD, HH, MM, SS)
-    TARGET_DATE: new Date(2023, 7, 15, 19, 0, 0)
+    TARGET_DATE: new Date(2025, 3, 25, 12, 0, 0)
 };
 
 // DOM Elements
