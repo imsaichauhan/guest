@@ -8,7 +8,7 @@
     // Fun facts about the birthday person
     const funFacts = [
         "They can solve a Rubik's cube in under 2 minutes!",
-        "Their favorite food is pizza with pineapple (controversial, we know)",
+        "Her favorite lays is yellow (controversial, we know)",
         "They've visited 15 countries and counting!",
         "They once met their favorite celebrity at a coffee shop",
         "They can recite the first 50 digits of Pi from memory"
