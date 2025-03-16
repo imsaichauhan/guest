@@ -1,7 +1,7 @@
 // Configuration
 const CONFIG = {
     // API endpoint to your Google Apps Script
-    API_URL: 'https://script.google.com/macros/s/AKfycbxKyBpFntHQpVd2CnNC1ko39w-yPSZhDXpWKyDDo8_kOFBvc_-kbCmzT0RKuKIsJRCg/exec',
+    API_URL: 'https://script.google.com/macros/s/AKfycbxqhYGIn32-FO3nnBNAAtkjMT990EC5myFeIcvN8989lcvVwNwO2ld5JlZrUQrRzO-I/exec',
     // WhatsApp group link
     WHATSAPP_LINK: 'https://chat.whatsapp.com/EGyQOOsqYllJZRNtNDTvQ9',
     // Event details
@@ -76,8 +76,8 @@ function setupEventListeners() {
     revealSurpriseBtn.addEventListener('click', revealSurprise);
 }
 
-// Validate invite code
-async function validateInviteCode() {
+// Validate invite code using JSONP
+function validateInviteCode() {
     const inviteCode = inviteCodeInput.value.trim();
     
     if (!inviteCode) {
@@ -85,41 +85,37 @@ async function validateInviteCode() {
         return;
     }
     
-    try {
-        submitCodeBtn.disabled = true;
-        submitCodeBtn.textContent = 'Checking...';
-        
-        // Call the Google Apps Script API
-        const response = await fetch(`${CONFIG.API_URL}?inviteCode=${inviteCode}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        
-        const data = await response.json();
-        
-        if (data.error) {
-            showLoginError(data.error);
-            submitCodeBtn.disabled = false;
-            submitCodeBtn.textContent = 'Unlock Invitation';
-            return;
-        }
-        
-        // Success - update UI
-        guestNameElement.textContent = data.name;
-        
-        // Transition to welcome section
-        loginSection.classList.remove('active');
-        welcomeSection.classList.add('active');
-        welcomeSection.classList.add('fade-in');
-        
-    } catch (error) {
-        console.error('Error validating code:', error);
-        showLoginError('Something went wrong. Please try again.');
+    submitCodeBtn.disabled = true;
+    submitCodeBtn.textContent = 'Checking...';
+    
+    // Create a script element for JSONP
+    const script = document.createElement('script');
+    script.src = `${CONFIG.API_URL}?inviteCode=${inviteCode}&callback=handleInviteCodeResponse`;
+    document.body.appendChild(script);
+}
+
+// Handle JSONP response
+function handleInviteCodeResponse(data) {
+    // Remove the script element
+    document.body.removeChild(document.querySelector('script[src*="callback=handleInviteCodeResponse"]'));
+    
+    // Log the response for debugging
+    console.log("API Response:", data);
+    
+    if (data.error) {
+        showLoginError(data.error);
         submitCodeBtn.disabled = false;
         submitCodeBtn.textContent = 'Unlock Invitation';
+        return;
     }
+    
+    // Success - update UI
+    guestNameElement.textContent = data.name;
+    
+    // Transition to welcome section
+    loginSection.classList.remove('active');
+    welcomeSection.classList.add('active');
+    welcomeSection.classList.add('fade-in');
 }
 
 // Submit RSVP
