@@ -30,8 +30,7 @@ const submitRsvpBtn = document.getElementById('submit-rsvp');
 const rsvpMessage = document.getElementById('rsvp-message');
 const whatsappContainer = document.getElementById('whatsapp-container');
 const whatsappLink = document.getElementById('whatsapp-link');
-const revealSurpriseBtn = document.getElementById('reveal-surprise');
-const surpriseDetails = document.getElementById('surprise-details');
+const thankYouMessage = document.getElementById('thank-you-message');
 const eventDatetime = document.getElementById('event-datetime');
 const eventVenue = document.getElementById('event-venue');
 const mapsLink = document.getElementById('maps-link');
@@ -73,8 +72,10 @@ function setupEventListeners() {
     // Submit RSVP
     submitRsvpBtn.addEventListener('click', submitRSVP);
     
-    // Reveal surprise details
-    revealSurpriseBtn.addEventListener('click', revealSurprise);
+    // Back to top button
+    document.getElementById('back-to-top').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 }
 
 // Validate invite code using JSONP
@@ -164,28 +165,22 @@ function handleRsvpResponse(data) {
         return;
     }
 
+    // Clear previous message
     rsvpMessage.textContent = '';
-
+    
+    // Set thank you message and show thank you section
+    welcomeSection.classList.remove('active');
+    thankyouSection.classList.add('active');
+    thankyouSection.classList.add('fade-in');
+    
+    // Update thank you message and whatsapp container visibility based on RSVP
     if (data.rsvp === 'Yes') {
-        showRsvpMessage('Thank you for your response! Can’t wait to celebrate together! 🎉', 'success');
-        setTimeout(() => {
-            thankyouSection.classList.add('active');
-            whatsappContainer.style.display = 'block';
-        }, 2000);
+        thankYouMessage.textContent = 'Thank you for your response! Can't wait to celebrate together! 🎉';
+        whatsappContainer.style.display = 'block';
     } else {
-        showRsvpMessage("We'll miss you! If plans change, you know where to find us. 😊", 'info');
-        setTimeout(() => {
-            thankyouSection.classList.add('active');
-            whatsappContainer.style.display = 'none';
-        }, 2000);
+        thankYouMessage.textContent = "We'll miss you! If plans change, you know where to find us. 😊";
+        whatsappContainer.style.display = 'none';
     }
-}
-
-// Reveal surprise details
-function revealSurprise() {
-    revealSurpriseBtn.classList.add('hidden');
-    surpriseDetails.classList.remove('hidden');
-    surpriseDetails.classList.add('reveal');
 }
 
 // Show error message
