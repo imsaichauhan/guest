@@ -1,57 +1,47 @@
-// Countdown Timer Functionality
-(function() {
-    // DOM Elements
-    const daysElement = document.getElementById('days');
-    const hoursElement = document.getElementById('hours');
-    const minutesElement = document.getElementById('minutes');
-    const secondsElement = document.getElementById('seconds');
-    const venueDetails = document.getElementById('venue-details');
-    const revealMessage = document.getElementById('reveal-message');
+// DOM Elements
+const daysElement = document.getElementById('days');
+const hoursElement = document.getElementById('hours');
+const minutesElement = document.getElementById('minutes');
+const secondsElement = document.getElementById('seconds');
+
+// Update countdown timer
+function updateCountdown() {
+    // Get current date and time
+    const now = new Date();
     
-    // Update countdown timer
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const targetDate = CONFIG.TARGET_DATE.getTime();
-        const timeLeft = targetDate - now;
-        
-        // Calculate time units
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        
-        // Update DOM elements
-        daysElement.textContent = days.toString().padStart(2, '0');
-        hoursElement.textContent = hours.toString().padStart(2, '0');
-        minutesElement.textContent = minutes.toString().padStart(2, '0');
-        secondsElement.textContent = seconds.toString().padStart(2, '0');
-        
-        // Check if we need to reveal venue details (48 hours before event)
-        if (timeLeft <= 48 * 60 * 60 * 1000) {
-            venueDetails.classList.remove('blur-content');
-            venueDetails.classList.add('revealed');
-            revealMessage.classList.remove('hidden');
-        }
-        
-        // If the countdown is over
-        if (timeLeft < 0) {
-            clearInterval(countdownTimer);
-            daysElement.textContent = '00';
-            hoursElement.textContent = '00';
-            minutesElement.textContent = '00';
-            secondsElement.textContent = '00';
-            
-            // Make sure venue details are revealed
-            venueDetails.classList.remove('blur-content');
-            venueDetails.classList.add('revealed');
-            revealMessage.classList.remove('hidden');
-            revealMessage.textContent = 'Event is happening now!';
-        }
+    // Calculate time remaining
+    const diff = CONFIG.TARGET_DATE - now;
+    
+    // If event has passed, show zeros
+    if (diff <= 0) {
+        daysElement.textContent = '00';
+        hoursElement.textContent = '00';
+        minutesElement.textContent = '00';
+        secondsElement.textContent = '00';
+        return;
     }
     
-    // Update countdown every second
-    const countdownTimer = setInterval(updateCountdown, 1000);
+    // Calculate days, hours, minutes, and seconds
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
     
-    // Initial update
+    // Display values
+    daysElement.textContent = days.toString().padStart(2, '0');
+    hoursElement.textContent = hours.toString().padStart(2, '0');
+    minutesElement.textContent = minutes.toString().padStart(2, '0');
+    secondsElement.textContent = seconds.toString().padStart(2, '0');
+}
+
+// Initialize countdown
+function initCountdown() {
+    // Update countdown immediately
     updateCountdown();
-})();
+    
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
+}
+
+// Initialize countdown when DOM is loaded
+document.addEventListener('DOMContentLoaded', initCountdown);
