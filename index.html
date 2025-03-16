@@ -12,7 +12,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-    <!-- Header that hides on scroll -->
+    <!-- Header -->
     <header id="site-header" class="site-header">
         <div class="container">
             <nav>
@@ -96,7 +96,28 @@
                         </div>
                     </div>
                 </div>
-                <button id="reveal-surprise" class="btn reveal-btn">Reveal More Details</button>
+            </div>
+
+            <!-- Photo Carousel (Restored) -->
+            <div class="photo-section">
+                <h2>Fun Moments</h2>
+                <div class="carousel-container">
+                    <div class="carousel" id="photo-carousel">
+                        <!-- Photos will be loaded by JS -->
+                    </div>
+                    <div class="carousel-controls">
+                        <button id="prev-photo" class="carousel-control">❮</button>
+                        <button id="next-photo" class="carousel-control">❯</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Did You Know (Restored) -->
+            <div class="did-you-know">
+                <h2>Did You Know?</h2>
+                <div id="facts-container" class="facts-container">
+                    <p class="typewriter-text">Loading fun facts...</p>
+                </div>
             </div>
 
             <!-- RSVP Section -->
