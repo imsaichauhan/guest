@@ -1,5 +1,5 @@
-// Configuration
-const CONFIG = {
+// Configuration - Make CONFIG global
+window.CONFIG = {
     // API endpoint to your Google Apps Script
     API_URL: 'https://script.google.com/macros/s/AKfycbwLeVzlihQ1AV-fld7UrUcOcR-fSkcxgbAdNJFIEGHclQ01w6hsud9_11vUJn9Zjk3E/exec',
     // WhatsApp group link (only visible for attendees)
@@ -73,9 +73,12 @@ function setupEventListeners() {
     submitRsvpBtn.addEventListener('click', submitRSVP);
     
     // Back to top button
-    document.getElementById('back-to-top').addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    const backToTopBtn = document.getElementById('back-to-top');
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 }
 
 // Validate invite code using JSONP
@@ -168,7 +171,7 @@ function handleRsvpResponse(data) {
     // Clear previous message
     rsvpMessage.textContent = '';
     
-    // Set thank you message and show thank you section
+    // Show thank you message and show thank you section
     welcomeSection.classList.remove('active');
     thankyouSection.classList.add('active');
     thankyouSection.classList.add('fade-in');
