@@ -1,7 +1,7 @@
 // Configuration
 const CONFIG = {
     // API endpoint to your Google Apps Script
-    API_URL: 'https://script.google.com/macros/s/AKfycbxzu0i0S-dXbvb4tykrJP0bgQsCEZ7wtr5PKSpN8gyoH-LYFj7dxNd09kDR2NOijwwV/exec',
+    API_URL: 'https://script.google.com/macros/s/AKfycbwLeVzlihQ1AV-fld7UrUcOcR-fSkcxgbAdNJFIEGHclQ01w6hsud9_11vUJn9Zjk3E/exec',
     // WhatsApp group link
     WHATSAPP_LINK: 'https://chat.whatsapp.com/EGyQOOsqYllJZRNtNDTvQ9',
     // Event details
@@ -91,10 +91,23 @@ function validateInviteCode() {
     // Create a script element for JSONP
     const script = document.createElement('script');
     script.src = `${CONFIG.API_URL}?inviteCode=${inviteCode}&callback=handleInviteCodeResponse`;
+    
+    // Add a timeout for JSONP request
+    const timeout = setTimeout(() => {
+        showLoginError('Request timed out. Please try again.');
+        submitCodeBtn.disabled = false;
+        submitCodeBtn.textContent = 'Unlock Invitation';
+        document.body.removeChild(script);
+    }, 10000); // 10 seconds timeout
+    
+    script.onload = () => {
+        clearTimeout(timeout); // Clear timeout if the request succeeds
+    };
+    
     document.body.appendChild(script);
 }
 
-// Handle JSONP response
+// Handle JSONP response for invite code validation
 function handleInviteCodeResponse(data) {
     // Remove the script element
     document.body.removeChild(document.querySelector('script[src*="callback=handleInviteCodeResponse"]'));
@@ -118,8 +131,8 @@ function handleInviteCodeResponse(data) {
     welcomeSection.classList.add('fade-in');
 }
 
-// Submit RSVP
-async function submitRSVP() {
+// Submit RSVP using JSONP
+function submitRSVP() {
     const rsvpValue = document.querySelector('input[name="rsvp"]:checked')?.value;
     let foodValue = 'N/A';
     
@@ -136,54 +149,58 @@ async function submitRSVP() {
         }
     }
     
-    try {
-        submitRsvpBtn.disabled = true;
-        submitRsvpBtn.textContent = 'Submitting...';
-        
-        // Get the invite code from the input
-        const inviteCode = inviteCodeInput.value.trim();
-        
-        // Call the Google Apps Script API
-        const response = await fetch(CONFIG.API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                inviteCode: inviteCode,
-                rsvp: rsvpValue,
-                foodPreference: foodValue
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (data.error) {
-            showRsvpMessage(data.error, 'error');
-            submitRsvpBtn.disabled = false;
-            submitRsvpBtn.textContent = 'Submit RSVP';
-            return;
-        }
-        
-        // Success - show thank you message and transition to next section
-        showRsvpMessage('Thank you for your response!', 'success');
-        
-        // Wait for 2 seconds then transition to thank you section
-        setTimeout(() => {
-            welcomeSection.classList.remove('active');
-            thankyouSection.classList.add('active');
-            thankyouSection.classList.add('fade-in');
-            
-            // Create confetti effect
-            createConfetti();
-        }, 2000);
-        
-    } catch (error) {
-        console.error('Error submitting RSVP:', error);
-        showRsvpMessage('Something went wrong. Please try again.', 'error');
+    submitRsvpBtn.disabled = true;
+    submitRsvpBtn.textContent = 'Submitting...';
+    
+    // Get the invite code from the input
+    const inviteCode = inviteCodeInput.value.trim();
+    
+    // Create a script element for JSONP
+    const script = document.createElement('script');
+    script.src = `${CONFIG.API_URL}?inviteCode=${inviteCode}&rsvp=${rsvpValue}&foodPreference=${foodValue}&callback=handleRsvpResponse`;
+    
+    // Add a timeout for JSONP request
+    const timeout = setTimeout(() => {
+        showRsvpMessage('Request timed out. Please try again.', 'error');
         submitRsvpBtn.disabled = false;
         submitRsvpBtn.textContent = 'Submit RSVP';
+        document.body.removeChild(script);
+    }, 10000); // 10 seconds timeout
+    
+    script.onload = () => {
+        clearTimeout(timeout); // Clear timeout if the request succeeds
+    };
+    
+    document.body.appendChild(script);
+}
+
+// Handle JSONP response for RSVP submission
+function handleRsvpResponse(data) {
+    // Remove the script element
+    document.body.removeChild(document.querySelector('script[src*="callback=handleRsvpResponse"]'));
+    
+    // Log the response for debugging
+    console.log("API Response:", data);
+    
+    if (data.error) {
+        showRsvpMessage(data.error, 'error');
+        submitRsvpBtn.disabled = false;
+        submitRsvpBtn.textContent = 'Submit RSVP';
+        return;
     }
+    
+    // Success - show thank you message and transition to next section
+    showRsvpMessage('Thank you for your response!', 'success');
+    
+    // Wait for 2 seconds then transition to thank you section
+    setTimeout(() => {
+        welcomeSection.classList.remove('active');
+        thankyouSection.classList.add('active');
+        thankyouSection.classList.add('fade-in');
+        
+        // Create confetti effect
+        createConfetti();
+    }, 2000);
 }
 
 // Reveal surprise details
