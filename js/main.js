@@ -89,19 +89,25 @@ async function validateInviteCode() {
         submitCodeBtn.disabled = true;
         submitCodeBtn.textContent = 'Checking...';
         
-        // This is a mock validation function - in real usage, you'd call your API
-        // For demonstration, let's simulate a successful API call
-        const response = await mockValidateCode(inviteCode);
+        // Call the Google Apps Script API
+        const response = await fetch(`${CONFIG.API_URL}?inviteCode=${inviteCode}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
         
-        if (response.error) {
-            showLoginError(response.error);
+        const data = await response.json();
+        
+        if (data.error) {
+            showLoginError(data.error);
             submitCodeBtn.disabled = false;
             submitCodeBtn.textContent = 'Unlock Invitation';
             return;
         }
         
         // Success - update UI
-        guestNameElement.textContent = response.name;
+        guestNameElement.textContent = data.name;
         
         // Transition to welcome section
         loginSection.classList.remove('active');
@@ -138,14 +144,26 @@ async function submitRSVP() {
         submitRsvpBtn.disabled = true;
         submitRsvpBtn.textContent = 'Submitting...';
         
-        // Get the invite code from localStorage or from input (in real app, you'd save this after validation)
+        // Get the invite code from the input
         const inviteCode = inviteCodeInput.value.trim();
         
-        // This is a mock submission function - in real usage, you'd call your API
-        const response = await mockSubmitRSVP(inviteCode, rsvpValue, foodValue);
+        // Call the Google Apps Script API
+        const response = await fetch(CONFIG.API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                inviteCode: inviteCode,
+                rsvp: rsvpValue,
+                foodPreference: foodValue
+            })
+        });
         
-        if (response.error) {
-            showRsvpMessage(response.error, 'error');
+        const data = await response.json();
+        
+        if (data.error) {
+            showRsvpMessage(data.error, 'error');
             submitRsvpBtn.disabled = false;
             submitRsvpBtn.textContent = 'Submit RSVP';
             return;
@@ -222,66 +240,6 @@ function createConfetti() {
 function getRandomColor() {
     const colors = ['#ff6b6b', '#4ecdc4', '#ffbe0b', '#a786df', '#38b000'];
     return colors[Math.floor(Math.random() * colors.length)];
-}
-
-// Mock functions for demonstration (replace these with actual API calls)
-async function mockValidateCode(code) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            // In real usage, this would be an API call to your Google Apps Script
-            if (code === 'demo') {
-                resolve({ success: true, name: 'Demo User' });
-            } else {
-                // This simulates an API call - in production, use fetch to call your actual API
-                fetch(`${CONFIG.API_URL}?inviteCode=${code}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    resolve(data);
-                })
-                .catch(error => {
-                    console.error('Error calling API:', error);
-                    resolve({ error: 'Failed to validate code' });
-                });
-            }
-        }, 1000);
-    });
-}
-
-async function mockSubmitRSVP(inviteCode, rsvp, foodPreference) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            // In real usage, this would be an API call to your Google Apps Script
-            if (inviteCode === 'demo') {
-                resolve({ success: true });
-            } else {
-                // This uses the actual API call
-                fetch(CONFIG.API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        inviteCode: inviteCode,
-                        rsvp: rsvp,
-                        foodPreference: foodPreference
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    resolve(data);
-                })
-                .catch(error => {
-                    console.error('Error calling API:', error);
-                    resolve({ error: 'Failed to submit RSVP' });
-                });
-            }
-        }, 1000);
-    });
 }
 
 // Initialize the application when the DOM is fully loaded
