@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <!-- Photo Carousel (Restored) -->
+            <!-- Photo Carousel -->
             <div class="photo-section">
                 <h2>Fun Moments</h2>
                 <div class="carousel-container">
@@ -112,7 +112,7 @@
                 </div>
             </div>
 
-            <!-- Did You Know (Restored) -->
+            <!-- Did You Know Section -->
             <div class="did-you-know">
                 <h2>Did You Know?</h2>
                 <div id="facts-container" class="facts-container">
@@ -127,10 +127,12 @@
                     <div class="form-group">
                         <div class="radio-group">
                             <label class="radio-label">
-                                <input type="radio" name="rsvp" value="Yes"> 🎉 Of course! Wouldn’t miss it for the world.
+                                <input type="radio" name="rsvp" value="Yes" onclick="document.getElementById('whatsapp-group-section').removeAttribute('hidden');">
+                                🎉 Of course! Wouldn’t miss it for the world.
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="rsvp" value="No"> 😢 Ugh, responsibilities... okay, tell us you’ll be there in spirit!
+                                <input type="radio" name="rsvp" value="No" onclick="document.getElementById('whatsapp-group-section').setAttribute('hidden', 'true');">
+                                😢 Ugh, responsibilities... okay, tell us you’ll be there in spirit!
                             </label>
                         </div>
                     </div>
@@ -150,16 +152,18 @@
                 </div>
             </div>
 
+            <!-- WhatsApp Group Section (Initially Hidden) -->
+            <div id="whatsapp-group-section" hidden>
+                <h2>Join Our WhatsApp Group</h2>
+                <a id="whatsapp-link" href="https://chat.whatsapp.com/EGyQOOsqYllJZRNtNDTvQ9" target="_blank" class="btn whatsapp-btn">Join WhatsApp Group</a>
+            </div>
+
             <!-- Thank You Section -->
             <section id="thankyou-section" class="section hidden">
                 <div class="container">
                     <div class="thankyou-card">
                         <h1>Can’t wait to celebrate together!</h1>
                         <p>This is going to be one for the books.</p>
-                        <div class="whatsapp-group">
-                            <h2>Join Our WhatsApp Group</h2>
-                            <a id="whatsapp-link" href="#" target="_blank" class="btn whatsapp-btn">Join WhatsApp Group</a>
-                        </div>
                     </div>
                 </div>
             </section>
