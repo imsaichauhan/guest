@@ -1,7 +1,7 @@
 // Configuration
 const CONFIG = {
     // API endpoint to your Google Apps Script
-    API_URL: 'https://script.google.com/macros/s/AKfycbw7AAaSGF5mxEnxQEuaKBQShWP8NHuM25jniJYegF_o3or_Ls1UrClxcHtIoU3k9Ldt/exec',
+    API_URL: 'https://script.google.com/macros/s/AKfycbxzu0i0S-dXbvb4tykrJP0bgQsCEZ7wtr5PKSpN8gyoH-LYFj7dxNd09kDR2NOijwwV/exec',
     // WhatsApp group link
     WHATSAPP_LINK: 'https://chat.whatsapp.com/EGyQOOsqYllJZRNtNDTvQ9',
     // Event details
