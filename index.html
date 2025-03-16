@@ -1,192 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You're Invited!</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/animations.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're Invited!</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-    <!-- Header -->
-    <header id="site-header" class="site-header">
-        <div class="container">
-            <nav>
-                <div class="logo">Surprise Event</div>
-                <ul class="nav-links">
-                    <li><a href="#event-details">Details</a></li>
-                    <li><a href="#rsvp">RSVP</a></li>
-                </ul>
-            </nav>
+  <!-- Header -->
+  <header id="site-header" class="site-header">
+    <div class="container">
+      <nav>
+        <div class="logo">Surprise Event</div>
+        <ul class="nav-links">
+          <li><a href="#event-details">Details</a></li>
+          <li><a href="#rsvp">RSVP</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Login Section -->
+  <section id="login-section" class="section active">
+    <div class="container">
+      <div class="login-card">
+        <h1>Psst... You’re about to unlock something exciting.</h1>
+        <p>Enter your invite code and step into the surprise!</p>
+        <div class="input-group">
+          <input type="text" id="invite-code" placeholder="Enter your invite code">
+          <button id="submit-code">Unlock Invitation</button>
         </div>
-    </header>
+        <p id="login-error" class="error-message"></p>
+      </div>
+    </div>
+  </section>
 
-    <!-- Login Section -->
-    <section id="login-section" class="section active">
-        <div class="container">
-            <div class="login-card">
-                <h1>Psst... You’re about to unlock something exciting.</h1>
-                <p>Enter your invite code and step into the surprise!</p>
-                <div class="input-group">
-                    <input type="text" id="invite-code" placeholder="Enter your invite code">
-                    <button id="submit-code">Unlock Invitation</button>
-                </div>
-                <p id="login-error" class="error-message"></p>
-            </div>
+  <!-- Welcome Section -->
+  <section id="welcome-section" class="section">
+    <div class="container">
+      <!-- Hero Section -->
+      <div class="hero">
+        <h1>Hey <span id="guest-name"></span>, hope you’re ready for a night of fun, laughter, and a BIG surprise!</h1>
+        <p class="subtitle">A night full of surprises, laughter, and someone very special... Shibani</p>
+
+        <!-- Countdown Timer -->
+        <div id="countdown" class="countdown">
+          <div class="timer-item">
+            <span id="days">00</span>
+            <span class="timer-label">Days</span>
+          </div>
+          <div class="timer-item">
+            <span id="hours">00</span>
+            <span class="timer-label">Hours</span>
+          </div>
+          <div class="timer-item">
+            <span id="minutes">00</span>
+            <span class="timer-label">Minutes</span>
+          </div>
+          <div class="timer-item">
+            <span id="seconds">00</span>
+            <span class="timer-label">Seconds</span>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Welcome Section -->
-    <section id="welcome-section" class="section">
-        <div class="container">
-            <!-- Hero Section -->
-            <div class="hero">
-                <h1>Hey <span id="guest-name"></span>, hope you’re ready for a night of fun, laughter, and a BIG surprise!</h1>
-                <p class="subtitle">A night full of surprises, laughter, and someone very special... Shibani</p>
-
-                <!-- Countdown Timer -->
-                <div id="countdown" class="countdown">
-                    <div class="timer-item">
-                        <span id="days">00</span>
-                        <span class="timer-label">Days</span>
-                    </div>
-                    <div class="timer-item">
-                        <span id="hours">00</span>
-                        <span class="timer-label">Hours</span>
-                    </div>
-                    <div class="timer-item">
-                        <span id="minutes">00</span>
-                        <span class="timer-label">Minutes</span>
-                    </div>
-                    <div class="timer-item">
-                        <span id="seconds">00</span>
-                        <span class="timer-label">Seconds</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Event Details -->
-            <div id="event-details" class="event-details">
-                <h2>Event Details</h2>
-                <div class="detail-item">
-                    <div class="icon">📅</div>
-                    <div class="text">
-                        <h3>Date & Time</h3>
-                        <p id="event-datetime"></p>
-                    </div>
-                </div>
-                <div id="venue-details" class="venue-details blur-content">
-                    <div class="detail-item">
-                        <div class="icon">📍</div>
-                        <div class="text">
-                            <h3>Venue</h3>
-                            <p id="event-venue"></p>
-                            <a id="maps-link" href="#" target="_blank" class="maps-link">View on Google Maps</a>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="icon">✨</div>
-                        <div class="text">
-                            <h3>What to Bring</h3>
-                            <p id="event-items"></p>
-                        </div>
-                    </div>
-                    <p id="reveal-message" class="reveal-message hidden">All details revealed! We can't wait to see you!</p>
-                </div>
-                <button id="reveal-surprise" class="btn reveal-btn">Reveal More Details</button>
-                <div id="surprise-details" class="surprise-details hidden">
-                    <p>It's a surprise birthday celebration! Please don't mention anything to the birthday person.</p>
-                </div>
-            </div>
-
-            <!-- Photo Carousel -->
-            <div class="photo-section">
-                <h2>Fun Moments</h2>
-                <div class="carousel-container">
-                    <div class="carousel" id="photo-carousel">
-                        <!-- Photos will be loaded by JS -->
-                    </div>
-                    <div class="carousel-controls">
-                        <button id="prev-photo" class="carousel-control">❮</button>
-                        <button id="next-photo" class="carousel-control">❯</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Did You Know Section -->
-            <div class="did-you-know">
-                <h2>Did You Know?</h2>
-                <div id="facts-container" class="facts-container">
-                    <p class="typewriter-text">Loading fun facts...</p>
-                </div>
-            </div>
-
-            <!-- RSVP Section -->
-            <div id="rsvp" class="rsvp-section">
-                <h2>A special night needs special people. Will we get to party with you?</h2>
-                <div class="rsvp-form">
-                    <div class="form-group">
-                        <label>Will you be attending?</label>
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="rsvp" value="Yes"> 🎉 Of course! Wouldn’t miss it for the world.
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="rsvp" value="No"> 😢 Ugh, responsibilities... okay, tell us you’ll be there in spirit!
-                            </label>
-                        </div>
-                    </div>
-                    <div id="food-preference-group" class="form-group hidden">
-                        <label>Food Preference</label>
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="food" value="Veg"> 🥦 Vegetarian
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="food" value="Non-Veg"> 🍗 Non-Vegetarian
-                            </label>
-                        </div>
-                    </div>
-                    <button id="submit-rsvp" class="btn">Submit RSVP</button>
-                    <p id="rsvp-message" class="message"></p>
-                </div>
-            </div>
-
-            <!-- Thank You Section (After RSVP Submission) with WhatsApp Group -->
-            <section id="thankyou-section" class="section hidden">
-                <div class="container">
-                    <div class="thankyou-card">
-                        <h1>Can’t wait to celebrate together!</h1>
-                        <p>This is going to be one for the books.</p>
-                        <div class="whatsapp-group">
-                            <h2>Join Our WhatsApp Group</h2>
-                            <p>Stay updated with the latest information about the event!</p>
-                            <a id="whatsapp-link" href="#" target="_blank" class="btn whatsapp-btn">
-                                Join WhatsApp Group
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      <!-- Event Details -->
+      <div id="event-details" class="event-details">
+        <h2>Event Details</h2>
+        <div class="detail-item">
+          <div class="icon">📅</div>
+          <div class="text">
+            <h3>Date & Time</h3>
+            <p id="event-datetime"></p>
+          </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <p>Excited to celebrate with you!</p>
-            <button id="back-to-top" class="back-to-top-btn">Back to Top</button>
+        <div id="venue-details" class="venue-details blur-content">
+          <div class="detail-item">
+            <div class="icon">📍</div>
+            <div class="text">
+              <h3>Venue</h3>
+              <p id="event-venue"></p>
+              <a id="maps-link" href="#" target="_blank" class="maps-link">View on Google Maps</a>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="icon">✨</div>
+            <div class="text">
+              <h3>What to Bring</h3>
+              <p id="event-items"></p>
+            </div>
+          </div>
+          <p id="reveal-message" class="reveal-message hidden">All details revealed! We can't wait to see you!</p>
         </div>
-    </footer>
+        <button id="reveal-surprise" class="btn reveal-btn">Reveal More Details</button>
+        <div id="surprise-details" class="surprise-details hidden">
+          <p>It's a surprise birthday celebration! Please don't mention anything to the birthday person.</p>
+        </div>
+      </div>
 
-    <!-- Scripts -->
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/countdown.js"></script>
-    <script src="assets/js/carousel.js"></script>
-    <script src="assets/js/effects.js"></script>
+      <!-- Photo Carousel -->
+      <div class="photo-section">
+        <h2>Fun Moments</h2>
+        <div class="carousel-container">
+          <div class="carousel" id="photo-carousel">
+            <!-- Photos will be loaded by JS -->
+          </div>
+          <div class="carousel-controls">
+            <button id="prev-photo" class="carousel-control">❮</button>
+            <button id="next-photo" class="carousel-control">❯</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Did You Know Section -->
+      <div class="did-you-know">
+        <h2>Did You Know?</h2>
+        <div id="facts-container" class="facts-container">
+          <p class="typewriter-text">Loading fun facts...</p>
+        </div>
+      </div>
+
+      <!-- RSVP Section -->
+      <div id="rsvp" class="rsvp-section">
+        <h2>A special night needs special people. Will we get to party with you?</h2>
+        <div class="rsvp-form">
+          <div class="form-group">
+            <label>Will you be attending?</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="rsvp" value="Yes">
+                🎉 Of course! Wouldn’t miss it for the world.
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="rsvp" value="No">
+                😢 Ugh, responsibilities... okay, tell us you’ll be there in spirit!
+              </label>
+            </div>
+          </div>
+          <div id="food-preference-group" class="form-group hidden">
+            <label>Food Preference</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="food" value="Veg"> 🥦 Vegetarian
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="food" value="Non-Veg"> 🍗 Non-Vegetarian
+              </label>
+            </div>
+          </div>
+          <button id="submit-rsvp" class="btn">Submit RSVP</button>
+          <p id="rsvp-message" class="message"></p>
+        </div>
+      </div>
+
+      <!-- Thank You Section (After RSVP Submission) with WhatsApp Group -->
+      <section id="thankyou-section" class="section hidden">
+        <div class="container">
+          <div class="thankyou-card">
+            <h1>Can’t wait to celebrate together!</h1>
+            <p>This is going to be one for the books.</p>
+            <div class="whatsapp-group">
+              <h2>Join Our WhatsApp Group</h2>
+              <p>Stay updated with the latest information about the event!</p>
+              <a id="whatsapp-link" href="#" target="_blank" class="btn whatsapp-btn">
+                Join WhatsApp Group
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Excited to celebrate with you!</p>
+      <button id="back-to-top" class="back-to-top-btn">Back to Top</button>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/countdown.js"></script>
+  <script src="assets/js/carousel.js"></script>
+  <script src="assets/js/effects.js"></script>
 </body>
 </html>
