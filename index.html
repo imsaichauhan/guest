@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Invited!</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Section -->
+    <section id="login-section" class="section active">
+        <div class="container">
+            <h1>You're Invited!</h1>
+            <p>Enter your invite code to unlock details</p>
+            <div class="form-group">
+                <input type="text" id="invite-code" placeholder="Your Invite Code" required>
+                <button id="submit-code" class="btn">Unlock Invitation</button>
+            </div>
+            <div id="login-error" class="error-message"></div>
+        </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section id="welcome-section" class="section">
+        <div class="container">
+            <h1>Welcome, <span id="guest-name">Friend</span>!</h1>
+            <p>We're thrilled to invite you to our special event!</p>
+            
+            <div class="rsvp-form">
+                <h2>Please RSVP</h2>
+                <div class="form-group">
+                    <label>Will you be joining us?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="rsvp" value="Yes"> Yes, I'll be there!
+                        </label>
+                        <label>
+                            <input type="radio" name="rsvp" value="No"> Sorry, I can't make it.
+                        </label>
+                    </div>
+                </div>
+                
+                <div id="food-preference-group" class="form-group hidden">
+                    <label>Food Preference:</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="food" value="Veg"> Vegetarian
+                        </label>
+                        <label>
+                            <input type="radio" name="food" value="Non-Veg"> Non-Vegetarian
+                        </label>
+                    </div>
+                </div>
+                
+                <button id="submit-rsvp" class="btn">Submit RSVP</button>
+                <div id="rsvp-message" class="message"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Thank You Section -->
+    <section id="thankyou-section" class="section">
+        <div class="container">
+            <h1>Thank You!</h1>
+            <p>We look forward to celebrating with you!</p>
+            
+            <div id="whatsapp-section" class="info-box">
+                <h2>Join Our WhatsApp Group</h2>
+                <p>Connect with other guests and stay updated about the event</p>
+                <a href="#" id="whatsapp-link" class="btn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Join Group
+                </a>
+            </div>
+            
+            <div id="countdown-section" class="info-box">
+                <h2>Countdown to the Big Day</h2>
+                <div id="countdown" class="countdown">
+                    <div>
+                        <span id="days">00</span>
+                        <p>Days</p>
+                    </div>
+                    <div>
+                        <span id="hours">00</span>
+                        <p>Hours</p>
+                    </div>
+                    <div>
+                        <span id="minutes">00</span>
+                        <p>Minutes</p>
+                    </div>
+                    <div>
+                        <span id="seconds">00</span>
+                        <p>Seconds</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="surprise-button-container">
+                <button id="reveal-surprise" class="btn pulse-animation">Reveal Surprise Details</button>
+            </div>
+            
+            <div id="surprise-details" class="hidden info-box">
+                <h2>Event Details</h2>
+                <div class="detail-item">
+                    <i class="fas fa-calendar"></i>
+                    <p><strong>Date & Time:</strong> <span id="event-datetime">August 15, 2023 at 7:00 PM</span></p>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p><strong>Venue:</strong> <span id="event-venue">Crystal Garden Resort</span></p>
+                </div>
+                <div class="detail-item">
+                    <a href="#" id="maps-link" class="btn" target="_blank">
+                        <i class="fas fa-map"></i> View on Google Maps
+                    </a>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-suitcase"></i>
+                    <p><strong>What to Bring:</strong> <span id="event-items">Your beautiful self and lots of energy!</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/countdown.js"></script>
+</body>
+</html>
