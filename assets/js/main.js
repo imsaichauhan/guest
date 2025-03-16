@@ -1,20 +1,3 @@
-// Configuration - Make CONFIG global
-window.CONFIG = {
-    // API endpoint to your Google Apps Script
-    API_URL: 'https://script.google.com/macros/s/AKfycbwLeVzlihQ1AV-fld7UrUcOcR-fSkcxgbAdNJFIEGHclQ01w6hsud9_11vUJn9Zjk3E/exec',
-    // WhatsApp group link (only visible for attendees)
-    WHATSAPP_LINK: 'https://chat.whatsapp.com/EGyQOOsqYllJZRNtNDTvQ9',
-    // Event details
-    EVENT: {
-        DATE_TIME: 'March 25, 2025 at 12:00 PM',
-        VENUE: 'Crystal Garden Resort',
-        GOOGLE_MAPS: 'https://www.google.com/maps/place/Munnar,+Kerala+685612/@10.0806496,77.0641779,15z/',
-        ITEMS: 'Your beautiful self, comfortable clothes, and lots of energy!',
-    },
-    // Countdown target date (YYYY, MM-1, DD, HH, MM, SS)
-    TARGET_DATE: new Date(2025, 2, 25, 12, 0, 0) // March 25, 2025, 12:00 PM
-};
-
 // DOM Elements
 const loginSection = document.getElementById('login-section');
 const welcomeSection = document.getElementById('welcome-section');
@@ -30,7 +13,6 @@ const submitRsvpBtn = document.getElementById('submit-rsvp');
 const rsvpMessage = document.getElementById('rsvp-message');
 const whatsappContainer = document.getElementById('whatsapp-container');
 const whatsappLink = document.getElementById('whatsapp-link');
-const thankYouMessage = document.getElementById('thank-you-message');
 const eventDatetime = document.getElementById('event-datetime');
 const eventVenue = document.getElementById('event-venue');
 const mapsLink = document.getElementById('maps-link');
@@ -147,7 +129,6 @@ function submitRSVP() {
     
     const script = document.createElement('script');
     script.src = `${CONFIG.API_URL}?inviteCode=${inviteCode}&rsvp=${rsvpValue}&foodPreference=${foodValue}&callback=handleRsvpResponse`;
-    
     const timeout = setTimeout(() => {
         showRsvpMessage('Request timed out. Please try again.', 'error');
         resetRsvpButton();
@@ -168,20 +149,18 @@ function handleRsvpResponse(data) {
         return;
     }
 
-    // Clear previous message
     rsvpMessage.textContent = '';
     
-    // Show thank you message and show thank you section
     welcomeSection.classList.remove('active');
     thankyouSection.classList.add('active');
     thankyouSection.classList.add('fade-in');
-    
-    // Update thank you message and whatsapp container visibility based on RSVP
+
+    // Show WhatsApp link only if attending
     if (data.rsvp === 'Yes') {
-        thankYouMessage.textContent = 'Thank you for your response! Can't wait to celebrate together! 🎉';
+        showRsvpMessage('Thank you for your response! Can't wait to celebrate together! 🎉', 'success');
         whatsappContainer.style.display = 'block';
     } else {
-        thankYouMessage.textContent = "We'll miss you! If plans change, you know where to find us. 😊";
+        showRsvpMessage("We'll miss you! If plans change, you know where to find us. 😊", 'info');
         whatsappContainer.style.display = 'none';
     }
 }
