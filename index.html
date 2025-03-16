@@ -25,7 +25,7 @@
         </div>
     </header>
 
-    <!-- Login Section - For Invite Code -->
+    <!-- Login Section -->
     <section id="login-section" class="section active">
         <div class="container">
             <div class="login-card">
@@ -40,14 +40,14 @@
         </div>
     </section>
 
-    <!-- Welcome Section - After Successful Login -->
+    <!-- Welcome Section -->
     <section id="welcome-section" class="section">
         <div class="container">
-            <!-- Hero with Countdown -->
+            <!-- Hero Section -->
             <div class="hero">
                 <h1>Hey <span id="guest-name"></span>, hope you’re ready for a night of fun, laughter, and a BIG surprise!</h1>
                 <p class="subtitle">A night full of surprises, laughter, and someone very special...</p>
-                
+
                 <!-- Countdown Timer -->
                 <div id="countdown" class="countdown">
                     <div class="timer-item">
@@ -68,8 +68,8 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Event Details - Initially Blurred -->
+
+            <!-- Event Details -->
             <div id="event-details" class="event-details">
                 <h2>Event Details</h2>
                 <div class="detail-item">
@@ -79,7 +79,6 @@
                         <p id="event-datetime"></p>
                     </div>
                 </div>
-                
                 <div id="venue-details" class="venue-details blur-content">
                     <div class="detail-item">
                         <div class="icon">📍</div>
@@ -89,7 +88,6 @@
                             <a id="maps-link" href="#" target="_blank" class="maps-link">View on Google Maps</a>
                         </div>
                     </div>
-                    
                     <div class="detail-item">
                         <div class="icon">✨</div>
                         <div class="text">
@@ -97,43 +95,10 @@
                             <p id="event-items"></p>
                         </div>
                     </div>
-                    
-                    <p id="reveal-message" class="reveal-message hidden">All details revealed! We can't wait to see you!</p>
                 </div>
-                
                 <button id="reveal-surprise" class="btn reveal-btn">Reveal More Details</button>
-                <div id="surprise-details" class="surprise-details hidden">
-                    <p>It's a surprise birthday celebration! Please don't mention anything to the birthday person.</p>
-                </div>
             </div>
-            
-            <!-- Photo Carousel -->
-            <div class="photo-section">
-                <h2>Fun Moments</h2>
-                <div class="carousel-container">
-                    <div class="carousel" id="photo-carousel">
-                        <!-- Photos will be loaded by JS -->
-                    </div>
-                    <div class="carousel-controls">
-                        <button id="prev-photo" class="carousel-control">❮</button>
-                        <button id="next-photo" class="carousel-control">❯</button>
-                    </div>
-                </div>
-                <div class="fun-captions">
-                    <p>🎤 "Once upon a time, Shibani thought she could sing..."</p>
-                    <p>😂 "Remember this? We’re still laughing."</p>
-                    <p>🔥 "Certified iconic moment. Argue with the wall."</p>
-                </div>
-            </div>
-            
-            <!-- Did You Know Section -->
-            <div class="did-you-know">
-                <h2>Did You Know?</h2>
-                <div id="facts-container" class="facts-container">
-                    <p class="typewriter-text">Loading fun facts...</p>
-                </div>
-            </div>
-            
+
             <!-- RSVP Section -->
             <div id="rsvp" class="rsvp-section">
                 <h2>You’re on the VIP list for something unforgettable. Will we get to party with you?</h2>
@@ -149,7 +114,6 @@
                             </label>
                         </div>
                     </div>
-                    
                     <div id="food-preference-group" class="form-group hidden">
                         <label>Food Preference</label>
                         <div class="radio-group">
@@ -161,57 +125,26 @@
                             </label>
                         </div>
                     </div>
-                    
                     <button id="submit-rsvp" class="btn">Submit RSVP</button>
                     <p id="rsvp-message" class="message"></p>
                 </div>
             </div>
-            
-            <!-- Thank You Section - After RSVP Submission -->
-            <section id="thankyou-section" class="section">
+
+            <!-- Thank You Section -->
+            <section id="thankyou-section" class="section hidden">
                 <div class="container">
                     <div class="thankyou-card">
                         <h1>Can’t wait to celebrate together!</h1>
                         <p>This is going to be one for the books.</p>
-
                         <div class="whatsapp-group">
                             <h2>Join Our WhatsApp Group</h2>
-                            <p>Stay updated with the latest information about the event!</p>
-                            <a id="whatsapp-link" href="#" target="_blank" class="btn whatsapp-btn">
-                                Join WhatsApp Group
-                            </a>
+                            <a id="whatsapp-link" href="#" target="_blank" class="btn whatsapp-btn">Join WhatsApp Group</a>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
     </section>
-    
-    <!-- Memory Flashback Carousel -->
-    <section class="photo-section">
-        <h2>Fun Moments</h2>
-        <div class="carousel-container">
-            <div class="carousel" id="photo-carousel">
-                <!-- Photos will be loaded by JS -->
-            </div>
-            <div class="carousel-controls">
-                <button id="prev-photo" class="carousel-control">❮</button>
-                <button id="next-photo" class="carousel-control">❯</button>
-            </div>
-        </div>
-        <div class="fun-captions">
-            <p>🎤 "Once upon a time, Shibani thought she could sing..."</p>
-            <p>😂 "Remember this? We’re still laughing."</p>
-            <p>🔥 "Certified iconic moment. Argue with the wall."</p>
-        </div>
-    </section>
-
-    <!-- Countdown with Fun Messages -->
-    <div id="countdown-messages">
-        <p>⏳ Shhh... every second brings us closer to THE moment.</p>
-        <p>💡 Only <span id="countdown-days"></span> days left! Are you keeping the secret or spilling the tea? ☕</p>
-        <p>🚀 The excitement level: officially off the charts!</p>
-    </div>
 
     <!-- Footer -->
     <footer class="site-footer">
