@@ -29,7 +29,7 @@
     <section id="login-section" class="section active">
         <div class="container">
             <div class="login-card">
-                <h1>Psst... You’re about to unlock something exciting.</h1>
+                <h1>Psst... You're about to unlock something exciting.</h1>
                 <p>Enter your invite code and step into the surprise!</p>
                 <div class="input-group">
                     <input type="text" id="invite-code" placeholder="Enter your invite code">
@@ -45,7 +45,7 @@
         <div class="container">
             <!-- Hero Section -->
             <div class="hero">
-                <h1>Hey <span id="guest-name"></span>, hope you’re ready for a night of fun, laughter, and a BIG surprise!</h1>
+                <h1>Hey <span id="guest-name"></span>, hope you're ready for a night of fun, laughter, and a BIG surprise!</h1>
                 <p class="subtitle">A night full of surprises, laughter, and someone very special... Shibani</p>
 
                 <!-- Countdown Timer -->
@@ -127,12 +127,12 @@
                     <div class="form-group">
                         <div class="radio-group">
                             <label class="radio-label">
-                                <input type="radio" name="rsvp" value="Yes" onclick="document.getElementById('whatsapp-group-section').removeAttribute('hidden');">
-                                🎉 Of course! Wouldn’t miss it for the world.
+                                <input type="radio" name="rsvp" value="Yes"> 
+                                🎉 Of course! Wouldn't miss it for the world.
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="rsvp" value="No" onclick="document.getElementById('whatsapp-group-section').setAttribute('hidden', 'true');">
-                                😢 Ugh, responsibilities... okay, tell us you’ll be there in spirit!
+                                <input type="radio" name="rsvp" value="No"> 
+                                😢 Ugh, responsibilities... okay, tell us you'll be there in spirit!
                             </label>
                         </div>
                     </div>
@@ -151,22 +151,24 @@
                     <p id="rsvp-message" class="message"></p>
                 </div>
             </div>
-
-            <!-- WhatsApp Group Section (Initially Hidden) -->
-            <div id="whatsapp-group-section" hidden>
-                <h2>Join Our WhatsApp Group</h2>
-                <a id="whatsapp-link" href="https://chat.whatsapp.com/EGyQOOsqYllJZRNtNDTvQ9" target="_blank" class="btn whatsapp-btn">Join WhatsApp Group</a>
-            </div>
-
-            <!-- Thank You Section -->
-            <section id="thankyou-section" class="section hidden">
-                <div class="container">
-                    <div class="thankyou-card">
-                        <h1>Can’t wait to celebrate together!</h1>
-                        <p>This is going to be one for the books.</p>
-                    </div>
+        </div>
+    </section>
+    
+    <!-- Thank You Section - After RSVP Submission -->
+    <section id="thankyou-section" class="section">
+        <div class="container">
+            <div class="thankyou-card">
+                <h1>Can't wait to celebrate together!</h1>
+                <p>This is going to be one for the books.</p>
+                
+                <div class="whatsapp-group">
+                    <h2>Join Our WhatsApp Group</h2>
+                    <p>Stay updated with the latest information about the event!</p>
+                    <a id="whatsapp-link" href="https://chat.whatsapp.com/EGyQOOsqYllJZRNtNDTvQ9" target="_blank" class="btn whatsapp-btn">
+                        Join WhatsApp Group
+                    </a>
                 </div>
-            </section>
+            </div>
         </div>
     </section>
 
