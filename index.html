@@ -29,8 +29,8 @@
     <section id="login-section" class="section active">
         <div class="container">
             <div class="login-card">
-                <h1>Welcome!</h1>
-                <p>Please enter your invite code to continue</p>
+                <h1>Psst... You’re about to unlock something exciting.</h1>
+                <p>Enter your invite code and step into the surprise!</p>
                 <div class="input-group">
                     <input type="text" id="invite-code" placeholder="Enter your invite code">
                     <button id="submit-code">Unlock Invitation</button>
@@ -45,8 +45,8 @@
         <div class="container">
             <!-- Hero with Countdown -->
             <div class="hero">
-                <h1>Hey <span id="guest-name"></span>, You're Invited!</h1>
-                <p class="subtitle">to a surprise birthday celebration</p>
+                <h1>Hey <span id="guest-name"></span>, hope you’re ready for a night of fun, laughter, and a BIG surprise!</h1>
+                <p class="subtitle">A night full of surprises, laughter, and someone very special...</p>
                 
                 <!-- Countdown Timer -->
                 <div id="countdown" class="countdown">
@@ -119,6 +119,11 @@
                         <button id="next-photo" class="carousel-control">❯</button>
                     </div>
                 </div>
+                <div class="fun-captions">
+                    <p>🎤 "Once upon a time, Shibani thought she could sing..."</p>
+                    <p>😂 "Remember this? We’re still laughing."</p>
+                    <p>🔥 "Certified iconic moment. Argue with the wall."</p>
+                </div>
             </div>
             
             <!-- Did You Know Section -->
@@ -129,18 +134,18 @@
                 </div>
             </div>
             
-            <!-- RSVP Form -->
+            <!-- RSVP Section -->
             <div id="rsvp" class="rsvp-section">
-                <h2>RSVP</h2>
+                <h2>You’re on the VIP list for something unforgettable. Will we get to party with you?</h2>
                 <div class="rsvp-form">
                     <div class="form-group">
                         <label>Will you be attending?</label>
                         <div class="radio-group">
                             <label class="radio-label">
-                                <input type="radio" name="rsvp" value="Yes"> Yes, I'll be there!
+                                <input type="radio" name="rsvp" value="Yes"> 🎉 Of course! Wouldn’t miss it for the world.
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="rsvp" value="No"> Sorry, I can't make it
+                                <input type="radio" name="rsvp" value="No"> 😢 Ugh, responsibilities... okay, tell us you’ll be there in spirit!
                             </label>
                         </div>
                     </div>
@@ -149,10 +154,10 @@
                         <label>Food Preference</label>
                         <div class="radio-group">
                             <label class="radio-label">
-                                <input type="radio" name="food" value="Veg"> Vegetarian
+                                <input type="radio" name="food" value="Veg"> 🥦 Vegetarian
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="food" value="Non-Veg"> Non-Vegetarian
+                                <input type="radio" name="food" value="Non-Veg"> 🍗 Non-Vegetarian
                             </label>
                         </div>
                     </div>
@@ -161,26 +166,52 @@
                     <p id="rsvp-message" class="message"></p>
                 </div>
             </div>
+            
+            <!-- Thank You Section - After RSVP Submission -->
+            <section id="thankyou-section" class="section">
+                <div class="container">
+                    <div class="thankyou-card">
+                        <h1>Can’t wait to celebrate together!</h1>
+                        <p>This is going to be one for the books.</p>
+
+                        <div class="whatsapp-group">
+                            <h2>Join Our WhatsApp Group</h2>
+                            <p>Stay updated with the latest information about the event!</p>
+                            <a id="whatsapp-link" href="#" target="_blank" class="btn whatsapp-btn">
+                                Join WhatsApp Group
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </section>
     
-    <!-- Thank You Section - After RSVP Submission -->
-    <section id="thankyou-section" class="section">
-        <div class="container">
-            <div class="thankyou-card">
-                <h1>Thank You!</h1>
-                <p>Your RSVP has been recorded. We look forward to celebrating with you!</p>
-                
-                <div class="whatsapp-group">
-                    <h2>Join Our WhatsApp Group</h2>
-                    <p>Stay updated with the latest information about the event!</p>
-                    <a id="whatsapp-link" href="#" target="_blank" class="btn whatsapp-btn">
-                        Join WhatsApp Group
-                    </a>
-                </div>
+    <!-- Memory Flashback Carousel -->
+    <section class="photo-section">
+        <h2>Fun Moments</h2>
+        <div class="carousel-container">
+            <div class="carousel" id="photo-carousel">
+                <!-- Photos will be loaded by JS -->
+            </div>
+            <div class="carousel-controls">
+                <button id="prev-photo" class="carousel-control">❮</button>
+                <button id="next-photo" class="carousel-control">❯</button>
             </div>
         </div>
+        <div class="fun-captions">
+            <p>🎤 "Once upon a time, Shibani thought she could sing..."</p>
+            <p>😂 "Remember this? We’re still laughing."</p>
+            <p>🔥 "Certified iconic moment. Argue with the wall."</p>
+        </div>
     </section>
+
+    <!-- Countdown with Fun Messages -->
+    <div id="countdown-messages">
+        <p>⏳ Shhh... every second brings us closer to THE moment.</p>
+        <p>💡 Only <span id="countdown-days"></span> days left! Are you keeping the secret or spilling the tea? ☕</p>
+        <p>🚀 The excitement level: officially off the charts!</p>
+    </div>
 
     <!-- Footer -->
     <footer class="site-footer">
