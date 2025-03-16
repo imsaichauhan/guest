@@ -23,13 +23,18 @@ const inviteCodeInput = document.getElementById('invite-code');
 const submitCodeBtn = document.getElementById('submit-code');
 const loginError = document.getElementById('login-error');
 const guestNameElement = document.getElementById('guest-name');
+const rsvpInputs = document.querySelectorAll('input[name="rsvp"]');
+const foodPreferenceGroup = document.getElementById('food-preference-group');
+const foodInputs = document.querySelectorAll('input[name="food"]');
+const submitRsvpBtn = document.getElementById('submit-rsvp');
+const rsvpMessage = document.getElementById('rsvp-message');
+const whatsappLink = document.getElementById('whatsapp-link');
 const revealSurpriseBtn = document.getElementById('reveal-surprise');
 const surpriseDetails = document.getElementById('surprise-details');
 const eventDatetime = document.getElementById('event-datetime');
 const eventVenue = document.getElementById('event-venue');
 const mapsLink = document.getElementById('maps-link');
 const eventItems = document.getElementById('event-items');
-const backToTopBtn = document.getElementById('back-to-top');
 
 // Initialize the application
 function init() {
@@ -38,40 +43,144 @@ function init() {
     eventVenue.textContent = CONFIG.EVENT.VENUE;
     mapsLink.href = CONFIG.EVENT.GOOGLE_MAPS;
     eventItems.textContent = CONFIG.EVENT.ITEMS;
+    whatsappLink.href = CONFIG.WHATSAPP_LINK;
     
-    // Set up additional event listeners
-    setupMainEventListeners();
-    
-    // Check if user is on a mobile device and adjusting styling
-    checkMobileDevice();
+    // Set up event listeners
+    setupEventListeners();
 }
 
 // Set up event listeners
-function setupMainEventListeners() {
-    // Reveal surprise details
-    revealSurpriseBtn.addEventListener('click', revealSurprise);
-    
-    // Back to top button
-    backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+function setupEventListeners() {
+    // Submit invite code
+    submitCodeBtn.addEventListener('click', validateInviteCode);
+    inviteCodeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') validateInviteCode();
     });
     
-    // Links in the navigation
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                window.scrollTo({
-                    top: target.offsetTop - 80,
-                    behavior: 'smooth'
-                });
+    // RSVP selection
+    rsvpInputs.forEach(input => {
+        input.addEventListener('change', (e) => {
+            if (e.target.value === 'Yes') {
+                foodPreferenceGroup.classList.remove('hidden');
+                foodPreferenceGroup.classList.add('fade-in');
+            } else {
+                foodPreferenceGroup.classList.add('hidden');
             }
         });
     });
+    
+    // Submit RSVP
+    submitRsvpBtn.addEventListener('click', submitRSVP);
+    
+    // Reveal surprise details
+    revealSurpriseBtn.addEventListener('click', revealSurprise);
+}
+
+// Validate invite code using JSONP
+function validateInviteCode() {
+    const inviteCode = inviteCodeInput.value.trim();
+    
+    if (!inviteCode) {
+        showLoginError('Please enter your invite code');
+        return;
+    }
+    
+    submitCodeBtn.disabled = true;
+    submitCodeBtn.textContent = 'Checking...';
+    
+    // Create a script element for JSONP
+    const script = document.createElement('script');
+    script.src = `${CONFIG.API_URL}?inviteCode=${inviteCode}&callback=handleInviteCodeResponse`;
+    
+    // Add a timeout for JSONP request
+    const timeout = setTimeout(() => {
+        showLoginError('Request timed out. Please try again.');
+        submitCodeBtn.disabled = false;
+        submitCodeBtn.textContent = 'Unlock Invitation';
+        document.body.removeChild(script);
+    }, 10000); // 10 seconds timeout
+    
+    script.onload = () => {
+        clearTimeout(timeout); // Clear timeout if the request succeeds
+    };
+    
+    document.body.appendChild(script);
+}
+
+// Handle JSONP response for invite code validation
+function handleInviteCodeResponse(data) {
+    document.body.removeChild(document.querySelector('script[src*="callback=handleInviteCodeResponse"]'));
+    
+    if (data.error) {
+        showLoginError(data.error);
+        submitCodeBtn.disabled = false;
+        submitCodeBtn.textContent = 'Unlock Invitation';
+        return;
+    }
+    
+    guestNameElement.textContent = data.name;
+    loginSection.classList.remove('active');
+    welcomeSection.classList.add('active');
+    welcomeSection.classList.add('fade-in');
+}
+
+// Submit RSVP using JSONP
+function submitRSVP() {
+    const rsvpValue = document.querySelector('input[name="rsvp"]:checked')?.value;
+    let foodValue = 'N/A';
+    
+    if (!rsvpValue) {
+        showRsvpMessage('Please select whether you\'ll be attending', 'error');
+        return;
+    }
+    
+    if (rsvpValue === 'Yes') {
+        foodValue = document.querySelector('input[name="food"]:checked')?.value;
+        if (!foodValue) {
+            showRsvpMessage('Please select your food preference', 'error');
+            return;
+        }
+    }
+    
+    submitRsvpBtn.disabled = true;
+    submitRsvpBtn.textContent = 'Submitting...';
+    
+    const inviteCode = inviteCodeInput.value.trim();
+    
+    const script = document.createElement('script');
+    script.src = `${CONFIG.API_URL}?inviteCode=${inviteCode}&rsvp=${rsvpValue}&foodPreference=${foodValue}&callback=handleRsvpResponse`;
+    
+    const timeout = setTimeout(() => {
+        showRsvpMessage('Request timed out. Please try again.', 'error');
+        submitRsvpBtn.disabled = false;
+        submitRsvpBtn.textContent = 'Submit RSVP';
+        document.body.removeChild(script);
+    }, 10000); // 10 seconds timeout
+    
+    script.onload = () => {
+        clearTimeout(timeout);
+    };
+    
+    document.body.appendChild(script);
+}
+
+// Handle JSONP response for RSVP submission
+function handleRsvpResponse(data) {
+    document.body.removeChild(document.querySelector('script[src*="callback=handleRsvpResponse"]'));
+    
+    if (data.error) {
+        showRsvpMessage(data.error, 'error');
+        submitRsvpBtn.disabled = false;
+        submitRsvpBtn.textContent = 'Submit RSVP';
+        return;
+    }
+    
+    showRsvpMessage('Thank you for your response!', 'success');
+    setTimeout(() => {
+        welcomeSection.classList.remove('active');
+        thankyouSection.classList.add('active');
+        thankyouSection.classList.add('fade-in');
+    }, 2000);
 }
 
 // Reveal surprise details
@@ -81,12 +190,17 @@ function revealSurprise() {
     surpriseDetails.classList.add('reveal');
 }
 
-// Check if user is on a mobile device
-function checkMobileDevice() {
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        document.body.classList.add('mobile-device');
-    }
+// Show error message
+function showLoginError(message) {
+    loginError.textContent = message;
 }
 
-// Initialize the application when the DOM is fully loaded
+// Show RSVP message
+function showRsvpMessage(message, type) {
+    rsvpMessage.textContent = message;
+    rsvpMessage.className = 'message';
+    rsvpMessage.classList.add(type);
+}
+
+// Initialize application on DOM load
 document.addEventListener('DOMContentLoaded', init);
