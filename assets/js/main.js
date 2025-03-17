@@ -1,3 +1,5 @@
+// main.js
+
 // DOM Elements
 const loginSection = document.getElementById('login-section');
 const welcomeSection = document.getElementById('welcome-section');
@@ -18,6 +20,9 @@ const eventVenue = document.getElementById('event-venue');
 const mapsLink = document.getElementById('maps-link');
 const eventItems = document.getElementById('event-items');
 
+// Global variable to store the RSVP selection before submitting
+let submittedRsvp = null;
+
 // Initialize the application
 function init() {
     // Set up event details
@@ -25,7 +30,14 @@ function init() {
     eventVenue.textContent = CONFIG.EVENT.VENUE;
     mapsLink.href = CONFIG.EVENT.GOOGLE_MAPS;
     eventItems.textContent = CONFIG.EVENT.ITEMS;
-    whatsappLink.href = CONFIG.WHATSAPP_LINK;
+    
+    // Ensure WhatsApp link is properly set
+    if (CONFIG.WHATSAPP_LINK) {
+        whatsappLink.href = CONFIG.WHATSAPP_LINK;
+        console.log('WhatsApp link initialized:', CONFIG.WHATSAPP_LINK);
+    } else {
+        console.error('WhatsApp link configuration missing');
+    }
     
     // Set up event listeners
     setupEventListeners();
@@ -39,7 +51,7 @@ function setupEventListeners() {
         if (e.key === 'Enter') validateInviteCode();
     });
     
-    // RSVP selection
+    // RSVP selection: Show food preference only if "Yes" is chosen
     rsvpInputs.forEach(input => {
         input.addEventListener('change', (e) => {
             if (e.target.value === 'Yes') {
@@ -90,7 +102,10 @@ function validateInviteCode() {
 
 // Handle JSONP response for invite code validation
 function handleInviteCodeResponse(data) {
-    document.body.removeChild(document.querySelector('script[src*="callback=handleInviteCodeResponse"]'));
+    const scriptTag = document.querySelector('script[src*="callback=handleInviteCodeResponse"]');
+    if (scriptTag) {
+        document.body.removeChild(scriptTag);
+    }
     
     if (data.error) {
         showLoginError(data.error);
@@ -107,6 +122,8 @@ function handleInviteCodeResponse(data) {
 // Submit RSVP using JSONP
 function submitRSVP() {
     const rsvpValue = document.querySelector('input[name="rsvp"]:checked')?.value;
+    submittedRsvp = rsvpValue; // store the user's selection
+    
     let foodValue = 'N/A';
     
     if (!rsvpValue) {
@@ -142,39 +159,111 @@ function submitRSVP() {
 
 // Handle JSONP response for RSVP submission
 function handleRsvpResponse(data) {
-    document.body.removeChild(document.querySelector('script[src*="callback=handleRsvpResponse"]'));
-
+    const scriptTag = document.querySelector('script[src*="callback=handleRsvpResponse"]');
+    if (scriptTag) {
+        document.body.removeChild(scriptTag);
+    }
+    
+    console.log("RSVP Response received:", data);
+    
     if (data.error) {
         showRsvpMessage(data.error, 'error');
         resetRsvpButton();
         return;
     }
-
+    
+    // Clear any previous messages
     rsvpMessage.textContent = '';
     
-    // Show appropriate message based on RSVP response
-    if (data.rsvp === 'Yes') {
-        showRsvpMessage('Thank you for your response! Can\'t wait to celebrate together! 🎉', 'success');
-    } else {
-        showRsvpMessage('We\'ll miss you! If plans change, you know where to find us. 😊', 'info');
-    }
+    // Use the submitted RSVP value (instead of the echoed value) to decide the branch
+    const isAttending = submittedRsvp && normalizeRsvpResponse(submittedRsvp);
+    console.log(`RSVP normalized from submitted: "${submittedRsvp}" → ${isAttending ? "Yes" : "No"}`);
     
-    // Wait a moment before transitioning to the thank you section
+    // Clean up any existing sections
+    cleanupSections();
+    
+    // Process the response after a brief delay
     setTimeout(() => {
         welcomeSection.classList.remove('active');
-        thankyouSection.classList.add('active');
-        thankyouSection.classList.add('fade-in');
         
-        // Show WhatsApp link only if attending
-        if (data.rsvp === 'Yes') {
-            whatsappContainer.style.display = 'block';
+        if (isAttending) {
+            handleAttendingResponse();
         } else {
-            whatsappContainer.style.display = 'none';
+            handleDecliningResponse();
         }
-    }, 2000);
+    }, 1000);
 }
 
-// Show error message
+// Helper function to normalize RSVP responses
+function normalizeRsvpResponse(rsvp) {
+    if (!rsvp) return false;
+    
+    const normalized = String(rsvp).trim().toLowerCase();
+    return normalized === 'yes' || normalized === 'true' || normalized === '1';
+}
+
+// Handle "Yes" RSVP response
+function handleAttendingResponse() {
+    console.log("Handling 'Yes' response");
+    
+    showRsvpMessage('Thank you for your response! Can\'t wait to celebrate together! 🎉', 'success');
+    
+    // Show thank you section
+    welcomeSection.classList.remove('active');
+    thankyouSection.classList.add('active');
+    thankyouSection.classList.add('fade-in');
+    
+    // Show WhatsApp container and launch confetti if available
+    if (whatsappContainer) {
+        whatsappContainer.classList.remove('hidden');
+        createConfetti && createConfetti();
+    }
+}
+
+// Handle "No" RSVP response
+function handleDecliningResponse() {
+    console.log("Handling 'No' response");
+    
+    showRsvpMessage('We\'ll miss you! If plans change, you can always update your response.', 'info');
+    
+    const declineSection = document.createElement('section');
+    declineSection.id = 'decline-section';
+    declineSection.className = 'section active fade-in';
+    declineSection.innerHTML = `
+        <div class="container">
+            <div class="thankyou-card">
+                <h1>We’ll miss you!</h1>
+                <p>If your plans change, feel free to update your RSVP.</p>
+                <button id="back-to-rsvp" class="btn">Change Response</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertBefore(declineSection, thankyouSection.nextSibling);
+    thankyouSection.classList.remove('active');
+    
+    const backToRsvpBtn = document.getElementById('back-to-rsvp');
+    if (backToRsvpBtn) {
+        backToRsvpBtn.addEventListener('click', () => {
+            declineSection.remove();
+            welcomeSection.classList.add('active');
+            resetRsvpButton();
+        });
+    }
+}
+
+// Clean up sections before showing new ones
+function cleanupSections() {
+    const existingDeclineSection = document.getElementById('decline-section');
+    if (existingDeclineSection) {
+        existingDeclineSection.remove();
+    }
+    
+    // Reset thank you section state
+    thankyouSection.classList.remove('active');
+}
+
+// Show error message for login
 function showLoginError(message) {
     loginError.textContent = message;
 }
