@@ -9,7 +9,7 @@ const CONFIG = {
         DATE_TIME: 'March 25, 2025 at 12:00 PM',
         VENUE: "Nice try, Sherlock, but you’ll have to wait!",
         VENUE_VIDEO: 'https://www.youtube.com/',
-        GOOGLE_MAPS: 'Lost? Stay tuned, all will be revealed soon!',
+        GOOGLE_MAPS: 'https://www.youtube.com/',
         ITEMS: "A+ for effort, but no spoilers! Just bring your party energy when it’s time!",
     },
     // Countdown target date (YYYY, MM-1, DD, HH, MM, SS)
