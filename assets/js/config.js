@@ -8,7 +8,7 @@ const CONFIG = {
     EVENT: {
         DATE_TIME: 'March 25, 2025 at 12:00 PM',
         VENUE: "Nice try, Sherlock, but you’ll have to wait!",
-        VENUE_VIDEO: 'hello',
+        VENUE_VIDEO: 'https://favicon.io/emoji-favicons/love-letter',
         GOOGLE_MAPS: 'Lost? Stay tuned, all will be revealed soon!',
         ITEMS: "A+ for effort, but no spoilers! Just bring your party energy when it’s time!",
     },
