@@ -7,10 +7,12 @@ const CONFIG = {
     // Event details
     EVENT: {
         DATE_TIME: 'March 25, 2025 at 12:00 PM',
-        VENUE: 'Crystal Garden',
-        GOOGLE_MAPS: 'https://www.google.com/maps/place/Munnar,+Kerala+685612/@10.0806496,77.0641779,15z/',
-        ITEMS: 'Your beautiful self, comfortable clothes, and lots of energy!',
+        VENUE: "Nice try, Sherlock, but you’ll have to wait!",
+        GOOGLE_MAPS: 'Lost? Stay tuned, all will be revealed soon!',
+        ITEMS: "A+ for effort, but no spoilers! Just bring your party energy when it’s time!",
     },
     // Countdown target date (YYYY, MM-1, DD, HH, MM, SS)
-    TARGET_DATE: new Date(2025, 2, 25, 12, 0, 0) // March 25, 2025, 12:00 PM
+    TARGET_DATE: new Date(2025, 2, 25, 12, 0, 0), // March 25, 2025, 12:00 PM
+    // New flag to control venue details reveal manually from backend
+    REVEAL_VENUE: false // Set to true from backend when ready to unblur
 };

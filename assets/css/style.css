@@ -5,11 +5,28 @@
     box-sizing: border-box;
 }
 
+/* CSS Variables for easier maintenance */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --accent-color: #e74c3c;
+    --success-color: #2ecc71;
+    --text-color: #333;
+    --background-color: #f9f9f9;
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Montserrat', sans-serif;
+    --border-radius: 10px;
+    --transition-speed: 0.3s;
+}
+
+/* Base Styles */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-primary);
     line-height: 1.6;
-    color: #333;
-    background-color: #f9f9f9;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-attachment: fixed;
     overflow-x: hidden;
 }
 
@@ -20,8 +37,9 @@ body {
     padding: 0 15px;
 }
 
+/* Typography */
 h1, h2, h3 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-secondary);
     margin-bottom: 1rem;
 }
 
@@ -45,48 +63,51 @@ p {
     margin-bottom: 1rem;
 }
 
+/* Links */
 a {
-    color: #3498db;
+    color: var(--primary-color);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color var(--transition-speed) ease;
 }
 
 a:hover {
-    color: #2980b9;
+    color: var(--secondary-color);
 }
 
+/* Button Styles */
 .btn {
     display: inline-block;
     padding: 12px 24px;
-    background-color: #3498db;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 25px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) ease, box-shadow 0.2s;
     text-align: center;
-}
-
-.btn:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    will-change: transform, background-color;
+}
+
 .btn:active {
-    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .btn:disabled {
     background-color: #95a5a6;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+    opacity: 0.6;
 }
 
+/* Messages */
 .error-message {
-    color: #e74c3c;
+    color: var(--accent-color);
     margin-top: 1rem;
     font-weight: 500;
 }
@@ -99,14 +120,14 @@ a:hover {
 
 .message.error {
     background-color: #ffeaea;
-    border: 1px solid #e74c3c;
-    color: #e74c3c;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
 }
 
 .message.success {
     background-color: #eafaf1;
-    border: 1px solid #2ecc71;
-    color: #27ae60;
+    border: 1px solid var(--success-color);
+    color: var(--success-color);
 }
 
 /* Header Styles */
@@ -119,7 +140,7 @@ a:hover {
     left: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-speed) ease;
 }
 
 .site-header.hidden {
@@ -130,18 +151,21 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
 }
 
 .logo {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-secondary);
     font-size: 1.5rem;
     font-weight: 700;
-    color: #3498db;
+    color: var(--primary-color);
 }
 
 .nav-links {
     display: flex;
     list-style: none;
+    gap: 20px;
 }
 
 .nav-links li {
@@ -150,12 +174,15 @@ nav {
 
 .nav-links a {
     font-weight: 500;
-    color: #333;
-    transition: all 0.3s ease;
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background var(--transition-speed) ease;
 }
 
 .nav-links a:hover {
-    color: #3498db;
+    background-color: var(--primary-color);
+    color: white;
 }
 
 /* Section Styles */
@@ -172,31 +199,134 @@ nav {
 /* Login Section */
 .login-card {
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     padding: 40px;
     max-width: 500px;
     margin: 100px auto;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0);
+    animation: float 6s ease-in-out infinite;
+}
+
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        rgba(52, 152, 219, 0.05),
+        rgba(52, 152, 219, 0.1)
+    );
+    transform: rotate(45deg);
+    z-index: 0;
+}
+
+.login-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.login-card h1 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+    line-height: 1.3;
+}
+
+.login-card p {
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.login-illustration {
+    max-width: 200px;
+    margin: 0 auto 30px;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
 }
 
 .input-group {
-    margin: 20px 0;
+    margin: 30px 0;
+    position: relative;
 }
 
 .input-group input {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 25px;
+    padding: 15px 20px;
+    border: 2px solid #ecf0f1;
+    border-radius: 30px;
     font-size: 1rem;
-    margin-bottom: 15px;
-    transition: border-color 0.3s ease;
+    margin-bottom: 20px;
+    transition: all var(--transition-speed) ease;
+    background-color: #f8f9fa;
+    color: #2c3e50;
 }
 
 .input-group input:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
+    background-color: white;
+}
+
+.input-group button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    transition: all 0.3s ease;
+}
+
+.input-group button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 15px rgba(52, 152, 219, 0.3);
+}
+
+.input-group button:active {
+    transform: translateY(-1px);
+}
+
+.login-decoration {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.1));
+    z-index: 0;
+}
+
+.decoration-1 {
+    top: -60px;
+    right: -60px;
+}
+
+.decoration-2 {
+    bottom: -60px;
+    left: -60px;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    50% {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+    100% {
+        transform: translateY(0px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
 }
 
 /* Welcome Section */
@@ -204,7 +334,7 @@ nav {
     text-align: center;
     padding: 60px 0;
     background-color: #f1f8fe;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin-bottom: 40px;
 }
 
@@ -218,15 +348,16 @@ nav {
 .countdown {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 20px;
     margin: 40px 0;
 }
 
 .timer-item {
     background-color: white;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 15px;
+    padding: 20px;
     min-width: 80px;
     text-align: center;
 }
@@ -238,7 +369,7 @@ nav {
 .timer-item span:first-child {
     font-size: 2rem;
     font-weight: 700;
-    color: #3498db;
+    color: var(--primary-color);
 }
 
 .timer-label {
@@ -250,7 +381,7 @@ nav {
 /* Event Details */
 .event-details {
     background-color: white;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     padding: 30px;
     margin-bottom: 40px;
@@ -265,7 +396,7 @@ nav {
 .icon {
     font-size: 2rem;
     margin-right: 20px;
-    color: #3498db;
+    color: var(--primary-color);
 }
 
 .maps-link {
@@ -274,19 +405,19 @@ nav {
     font-weight: 500;
 }
 
+/* Blur Content for Venue Details */
 .blur-content {
     filter: blur(5px);
     transition: filter 1s ease;
     pointer-events: none;
-    user-select: none; /* Prevent text selection */
+    user-select: none;
 }
 
 .blur-content.revealed {
     filter: blur(0);
     pointer-events: auto;
-    user-select: text; /* Allow selection after reveal */
+    user-select: text;
 }
-
 
 .venue-details {
     position: relative;
@@ -299,10 +430,10 @@ nav {
     transform: translate(-50%, -50%);
     background-color: rgba(255, 255, 255, 0.8);
     padding: 15px;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     text-align: center;
     font-weight: 600;
-    color: #3498db;
+    color: var(--primary-color);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 10;
 }
@@ -324,33 +455,55 @@ nav {
     margin-bottom: 40px;
 }
 
+/* Updated Carousel Styles */
 .carousel-container {
     position: relative;
     width: 100%;
-    height: 300px;
+    max-width: 500px; /* Limit width on desktop */
+    margin: 0 auto;
+    height: auto;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .carousel {
     display: flex;
-    transition: transform 0.5s ease;
+    transition: transform 0.5s ease-in-out;
     height: 100%;
 }
 
 .carousel-item {
     flex: 0 0 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
+    position: relative;
 }
 
+.carousel-image {
+    width: 100%;
+    aspect-ratio: 1/1; /* This ensures 1:1 aspect ratio */
+    object-fit: cover; /* Changed to cover for better image filling */
+    display: block;
+}
+
+.carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+}
+
+/* Carousel Controls */
 .carousel-controls {
     position: absolute;
     bottom: 20px;
     right: 20px;
     display: flex;
     gap: 10px;
+    z-index: 10;
 }
 
 .carousel-control {
@@ -364,20 +517,44 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: background var(--transition-speed) ease;
 }
 
 .carousel-control:hover {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
+/* Carousel Indicators */
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.indicator.active {
+    background-color: var(--primary-color);
+}
+
 /* Did You Know Section */
 .did-you-know {
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 30px;
+    border-radius: var(--border-radius);
+    padding: 20px;
     margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .facts-container {
@@ -385,12 +562,22 @@ nav {
     font-size: 1.1rem;
     color: #34495e;
     font-style: italic;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.fact-text {
+    animation: fadeIn 1s ease-in forwards;
+    max-width: 100%;
+    margin: 0;
 }
 
 /* RSVP Section */
 .rsvp-section {
     background-color: white;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     padding: 30px;
     margin-bottom: 40px;
@@ -429,7 +616,7 @@ nav {
 /* Thank You Section */
 .thankyou-card {
     background-color: white;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     padding: 40px;
     max-width: 600px;
@@ -469,7 +656,7 @@ nav {
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) ease;
     margin-top: 10px;
 }
 
@@ -508,19 +695,123 @@ nav {
     .timer-item span:first-child {
         font-size: 1.5rem;
     }
+    
+    /* Make carousel full width on mobile */
+    .carousel-container {
+        max-width: 100%;
+    }
+    
+    /* Mobile Navigation */
+    .nav-links {
+        flex-direction: column;
+        text-align: center;
+        display: none; /* Hidden by default on mobile */
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+
+    .login-card {
+        padding: 30px 20px;
+        margin: 80px auto;
+    }
+
+    .login-card h1 {
+        font-size: 1.8rem;
+    }
+
+    .did-you-know {
+        padding: 15px;
+        margin-bottom: 30px;
+    }
+
+    .facts-container {
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
     .login-card, .thankyou-card {
-        padding: 20px;
-    }
-    
-    .nav-links {
-        display: none;
+        padding: 25px 15px;
+        margin: 60px auto 40px;
     }
     
     .timer-item {
         min-width: 60px;
         padding: 10px;
+    }
+
+    .login-card h1 {
+        font-size: 1.6rem;
+    }
+
+    .login-card p {
+        font-size: 1rem;
+    }
+
+    .input-group input, 
+    .input-group button {
+        padding: 12px 15px;
+    }
+
+    .did-you-know {
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .facts-container {
+        font-size: 0.9rem;
+    }
+}
+
+/* Balloon Container Styles */
+#balloon-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Balloon Styles */
+.balloon {
+    position: fixed;
+    bottom: -120px;
+    background: radial-gradient(circle, rgba(255,182,193,0.7), rgba(255,105,180,0.7));
+    border-radius: 50%;
+    opacity: 0.7;
+    width: 50px;
+    height: 80px;
+    animation: balloonRise 12s linear infinite;
+}
+
+/* Add missing fadeIn animation if used in the document */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Add missing balloonRise animation if used */
+@keyframes balloonRise {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(100px);
+        opacity: 0;
     }
 }

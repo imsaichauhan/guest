@@ -19,17 +19,83 @@ const eventDatetime = document.getElementById('event-datetime');
 const eventVenue = document.getElementById('event-venue');
 const mapsLink = document.getElementById('maps-link');
 const eventItems = document.getElementById('event-items');
+const revealVenueBtn = document.getElementById('reveal-venue-btn');
+const venueDetails = document.getElementById('venue-details');
+const venueRevealControls = document.getElementById('venue-reveal-controls');
+const balloonContainer = document.getElementById('balloon-container');
 
 // Global variable to store the RSVP selection before submitting
 let submittedRsvp = null;
 
+// Create animated balloons for the login screen
+function createBalloons() {
+    const colors = ['#FF6B6B', '#4ECDC4', '#FFD166', '#62CBFF', '#A782FD'];
+    const sizes = [40, 50, 60, 70, 80];
+    
+    for (let i = 0; i < 8; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        
+        // Random styles
+        const size = sizes[Math.floor(Math.random() * sizes.length)];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left = Math.random() * 100;
+        const animationDuration = 8 + Math.random() * 8;
+        const animationDelay = Math.random() * 5;
+        
+        balloon.style.width = `${size}px`;
+        balloon.style.height = `${Math.round(size * 1.6)}px`;
+        balloon.style.background = color;
+        balloon.style.left = `${left}%`;
+        balloon.style.animationDuration = `${animationDuration}s`;
+        balloon.style.animationDelay = `${animationDelay}s`;
+        balloon.style.opacity = '0.7';
+        
+        balloonContainer.appendChild(balloon);
+    }
+}
+
+// Add pulse effect to the submit button
+function addLoginButtonEffects() {
+    submitCodeBtn.classList.add('pulse-effect');
+    
+    // Focus effect on input
+    inviteCodeInput.addEventListener('focus', () => {
+        inviteCodeInput.style.transition = 'all 0.3s ease';
+        inviteCodeInput.style.boxShadow = '0 0 10px rgba(52, 152, 219, 0.5)';
+    });
+    
+    inviteCodeInput.addEventListener('blur', () => {
+        inviteCodeInput.style.boxShadow = '';
+    });
+}
+
+// Fallback scroll function: tries window.scrollTo, then forces document scroll positions
+function scrollToTopFallback() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+}
+
 // Initialize the application
 function init() {
+    // Add visual enhancements to login screen
+    createBalloons();
+    addLoginButtonEffects();
+    
     // Set up event details
     eventDatetime.textContent = CONFIG.EVENT.DATE_TIME;
     eventVenue.textContent = CONFIG.EVENT.VENUE;
     mapsLink.href = CONFIG.EVENT.GOOGLE_MAPS;
     eventItems.textContent = CONFIG.EVENT.ITEMS;
+    
+    // Check if venue details should be revealed from the start
+    if (CONFIG.REVEAL_VENUE && venueDetails) {
+        venueDetails.classList.add('revealed');
+        if (venueRevealControls) {
+            venueRevealControls.classList.add('hidden');
+        }
+    }
     
     // Ensure WhatsApp link is properly set
     if (CONFIG.WHATSAPP_LINK) {
@@ -51,6 +117,14 @@ function setupEventListeners() {
         if (e.key === 'Enter') validateInviteCode();
     });
     
+    // Allow revealing venue details if needed
+    if (revealVenueBtn && venueDetails && !CONFIG.REVEAL_VENUE) {
+        revealVenueBtn.addEventListener('click', () => {
+            venueDetails.classList.add('revealed');
+            venueRevealControls.classList.add('hidden');
+        });
+    }
+    
     // RSVP selection: Show food preference only if "Yes" is chosen
     rsvpInputs.forEach(input => {
         input.addEventListener('change', (e) => {
@@ -69,8 +143,20 @@ function setupEventListeners() {
     // Back to top button
     const backToTopBtn = document.getElementById('back-to-top');
     if (backToTopBtn) {
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        backToTopBtn.addEventListener('click', scrollToTopFallback);
+    }
+    
+    // Add floating effect to login card on hover
+    const loginCard = document.querySelector('.login-card');
+    if (loginCard) {
+        loginCard.addEventListener('mouseenter', () => {
+            loginCard.style.transform = 'translateY(-5px)';
+            loginCard.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
+        });
+        
+        loginCard.addEventListener('mouseleave', () => {
+            loginCard.style.transform = '';
+            loginCard.style.boxShadow = '';
         });
     }
 }
@@ -81,11 +167,13 @@ function validateInviteCode() {
     
     if (!inviteCode) {
         showLoginError('Please enter your invite code');
+        shakeInput(inviteCodeInput);
         return;
     }
     
     submitCodeBtn.disabled = true;
     submitCodeBtn.textContent = 'Checking...';
+    submitCodeBtn.classList.remove('pulse-effect');
     
     const script = document.createElement('script');
     script.src = `${CONFIG.API_URL}?inviteCode=${inviteCode}&callback=handleInviteCodeResponse`;
@@ -100,6 +188,14 @@ function validateInviteCode() {
     document.body.appendChild(script);
 }
 
+// Add shake animation to element
+function shakeInput(element) {
+    element.classList.add('shake');
+    setTimeout(() => {
+        element.classList.remove('shake');
+    }, 500);
+}
+
 // Handle JSONP response for invite code validation
 function handleInviteCodeResponse(data) {
     const scriptTag = document.querySelector('script[src*="callback=handleInviteCodeResponse"]');
@@ -109,14 +205,27 @@ function handleInviteCodeResponse(data) {
     
     if (data.error) {
         showLoginError(data.error);
+        shakeInput(inviteCodeInput);
         resetSubmitButton();
         return;
     }
     
-    guestNameElement.textContent = data.name;
-    loginSection.classList.remove('active');
-    welcomeSection.classList.add('active');
-    welcomeSection.classList.add('fade-in');
+    // Successfully validated
+    submitCodeBtn.textContent = 'Welcome!';
+    submitCodeBtn.style.backgroundColor = 'var(--success-color)';
+    
+    // Add success animation before switching screens
+    setTimeout(() => {
+        guestNameElement.textContent = data.name;
+        loginSection.classList.remove('active');
+        welcomeSection.classList.add('active');
+        welcomeSection.classList.add('fade-in');
+        
+        // Clean up balloon container after login
+        if (balloonContainer) {
+            balloonContainer.innerHTML = '';
+        }
+    }, 800);
 }
 
 // Submit RSVP using JSONP
@@ -159,7 +268,8 @@ function submitRSVP() {
 
 // Handle JSONP response for RSVP submission
 function handleRsvpResponse(data) {
-    const scriptTag = document.querySelector('script[src*="callback=handleRsvpResponse"]');
+    const scriptTag = document.querySelector('script[src*="callback=handleInviteResponse"]') || 
+                      document.querySelector('script[src*="callback=handleRsvpResponse"]');
     if (scriptTag) {
         document.body.removeChild(scriptTag);
     }
@@ -216,7 +326,19 @@ function handleAttendingResponse() {
     // Show WhatsApp container and launch confetti if available
     if (whatsappContainer) {
         whatsappContainer.classList.remove('hidden');
-        createConfetti && createConfetti();
+        whatsappContainer.classList.add('fade-in');
+        
+        // Scroll to top using the fallback
+        scrollToTopFallback();
+        
+        // Add delay before creating confetti for better visual effect
+        setTimeout(() => {
+            if (typeof createConfetti === 'function') {
+                createConfetti();
+            } else {
+                console.warn('createConfetti function not found');
+            }
+        }, 500);
     }
 }
 
@@ -232,7 +354,7 @@ function handleDecliningResponse() {
     declineSection.innerHTML = `
         <div class="container">
             <div class="thankyou-card">
-                <h1>We’ll miss you!</h1>
+                <h1>We'll miss you!</h1>
                 <p>If your plans change, feel free to update your RSVP.</p>
                 <button id="back-to-rsvp" class="btn">Change Response</button>
             </div>
@@ -266,6 +388,10 @@ function cleanupSections() {
 // Show error message for login
 function showLoginError(message) {
     loginError.textContent = message;
+    loginError.classList.add('shake');
+    setTimeout(() => {
+        loginError.classList.remove('shake');
+    }, 500);
 }
 
 // Show RSVP message
@@ -278,6 +404,7 @@ function showRsvpMessage(message, type) {
 function resetSubmitButton() {
     submitCodeBtn.disabled = false;
     submitCodeBtn.textContent = 'Unlock Invitation';
+    submitCodeBtn.classList.add('pulse-effect');
 }
 
 function resetRsvpButton() {
@@ -285,5 +412,6 @@ function resetRsvpButton() {
     submitRsvpBtn.textContent = 'Submit RSVP';
 }
 
+// IMPORTANT: Ensure that effects.js is loaded before main.js
 // Initialize application on DOM load
 document.addEventListener('DOMContentLoaded', init);

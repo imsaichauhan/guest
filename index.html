@@ -29,13 +29,22 @@
   <section id="login-section" class="section active">
     <div class="container">
       <div class="login-card">
-        <h1>Psst... You're about to unlock something exciting.</h1>
-        <p>Enter your invite code and step into the surprise!</p>
+        <div class="login-decoration decoration-1"></div>
+        <div class="login-decoration decoration-2"></div>
+        <div class="login-illustration">
+          <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#3498db" d="M100 0L130 60L197 70L150 120L160 190L100 160L40 190L50 120L3 70L70 60Z" opacity="0.6"/>
+          </svg>
+        </div>
+        <h1>Something interesting is brewing...</h1>
         <div class="input-group">
           <input type="text" id="invite-code" placeholder="Enter your invite code">
-          <button id="submit-code">Unlock Invitation</button>
+          <button id="submit-code" class="pulse-effect">Unlock Invitation</button>
         </div>
         <p id="login-error" class="error-message"></p>
+        <div class="login-hints">
+          <p>✨ The code was sent in your invitation</p>
+        </div>
       </div>
     </div>
   </section>
@@ -45,8 +54,8 @@
     <div class="container">
       <!-- Hero Section -->
       <div class="hero">
-        <h1>Hey <span id="guest-name"></span>, hope you're ready for a night of fun, laughter, and a BIG surprise!</h1>
-        <p class="subtitle">A night full of surprises, laughter, and someone very special... Shibani</p>
+        <h1>Hey <span id="guest-name"></span>, the countdown is on… but Shibani has no clue!</h1>
+        <p class="subtitle">Laughter, surprises, and a birthday girl blissfully unaware of what's ahead!</p>
         <!-- Countdown Timer -->
         <div id="countdown" class="countdown">
           <div class="timer-item">
@@ -72,7 +81,7 @@
       <div id="event-details" class="event-details">
         <h2>Event Details</h2>
         <div class="detail-item">
-          <div class="icon">📅</div>
+          <div class="icon">🎟</div>
           <div class="text">
             <h3>Date & Time</h3>
             <p id="event-datetime"></p>
@@ -99,7 +108,7 @@
 
       <!-- Photo Carousel -->
       <div class="photo-section">
-        <h2>Fun Moments</h2>
+        <h2>Shibani: Caught in the Act</h2>
         <div class="carousel-container">
           <div class="carousel" id="photo-carousel">
             <!-- Photos will be loaded by JS -->
@@ -108,14 +117,6 @@
             <button id="prev-photo" class="carousel-control">❮</button>
             <button id="next-photo" class="carousel-control">❯</button>
           </div>
-        </div>
-      </div>
-
-      <!-- Did You Know Section -->
-      <div class="did-you-know">
-        <h2>Did You Know?</h2>
-        <div id="facts-container" class="facts-container">
-          <p class="typewriter-text">Loading fun facts...</p>
         </div>
       </div>
 
@@ -131,7 +132,7 @@
               </label>
               <label class="radio-label">
                 <input type="radio" name="rsvp" value="No"> 
-                😢 Ugh, responsibilities... okay, tell us you'll be there in spirit!
+                😢 Ugh, responsibilities... but I'll be there in spirit!
               </label>
             </div>
           </div>
@@ -169,6 +170,9 @@
       </div>
     </div>
   </section>
+  
+  <!-- Balloon container for login animation -->
+  <div id="balloon-container"></div>
 
   <!-- Footer -->
   <footer class="site-footer">
@@ -181,10 +185,10 @@
   <!-- Config script must come first -->
   <script src="assets/js/config.js"></script>
   
-  <!-- Other scripts -->
+  <!-- Load effects.js before main.js so that global functions are available -->
+  <script src="assets/js/effects.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/countdown.js"></script>
   <script src="assets/js/carousel.js"></script>
-  <script src="assets/js/effects.js"></script>
 </body>
 </html>
