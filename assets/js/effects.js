@@ -142,7 +142,7 @@
         balloon.style.animationDuration = `${duration}s`;
         
         // Random animation delay
-        const delay = Math.random() * 8; // 0-8 seconds delay
+        const delay = Math.random() * 2; // 0-8 seconds delay
         balloon.style.animationDelay = `${delay}s`;
         
         // Add small string to bottom of balloon
