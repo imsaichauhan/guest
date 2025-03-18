@@ -107,12 +107,12 @@
         
         // Add new balloons periodically
         setInterval(() => {
-            // Add 1-3 new balloons every 8-15 seconds
+            // Add 1-3 new balloons every 2-5 seconds
             const newBalloons = Math.floor(Math.random() * 3) + 1;
             for (let i = 0; i < newBalloons; i++) {
                 createBalloon(balloonContainer, balloonColors);
             }
-        }, Math.random() * 7000 + 8000);
+        }, Math.random() * 3000 + 2000);
     }
     
     // Create a single balloon with random properties
@@ -142,7 +142,7 @@
         balloon.style.animationDuration = `${duration}s`;
         
         // Random animation delay
-        const delay = Math.random() * 2; // 0-8 seconds delay
+        const delay = 0; // No delay for instant appearance
         balloon.style.animationDelay = `${delay}s`;
         
         // Add small string to bottom of balloon
