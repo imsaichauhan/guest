@@ -87,6 +87,13 @@ function init() {
     eventDatetime.textContent = CONFIG.EVENT.DATE_TIME;
     eventVenue.textContent = CONFIG.EVENT.VENUE;
     mapsLink.href = CONFIG.EVENT.GOOGLE_MAPS;
+    
+    // NEW: Set the venue video link if available
+    const venueVideoLink = document.getElementById('venue-video-link');
+    if (venueVideoLink) {
+        venueVideoLink.href = CONFIG.EVENT.VENUE_VIDEO;
+    }
+    
     eventItems.textContent = CONFIG.EVENT.ITEMS;
     
     // Check if venue details should be revealed from the start
