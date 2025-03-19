@@ -112,7 +112,7 @@
             for (let i = 0; i < newBalloons; i++) {
                 createBalloon(balloonContainer, balloonColors);
             }
-        }, Math.random() * 3000 + 2000);
+        }, Math.random() * 4000 + 4000);
     }
     
     // Create a single balloon with random properties
