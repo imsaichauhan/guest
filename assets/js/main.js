@@ -104,6 +104,9 @@ function init() {
         }
     }
 
+    // Ensure tooltip is properly set up for blurred content
+    setupBlurTooltip();
+
     // Ensure WhatsApp link is properly set
     if (CONFIG.WHATSAPP_LINK) {
         whatsappLink.href = CONFIG.WHATSAPP_LINK;
@@ -166,36 +169,49 @@ function setupEventListeners() {
             loginCard.style.boxShadow = '';
         });
     }
-
-    // Tooltip functionality for the blurred venue details
-    if (venueDetails) {
-        // Show the tooltip on hover
-        venueDetails.addEventListener('mouseenter', showBlurTooltip);
-        venueDetails.addEventListener('mouseleave', hideBlurTooltip);
-
-        // Also toggle the tooltip on click (auto-hide after 3 seconds)
-        venueDetails.addEventListener('click', () => {
-            const existingTooltip = document.getElementById('blur-tooltip');
-            if (existingTooltip) {
-                hideBlurTooltip();
-            } else {
-                showBlurTooltip();
-                setTimeout(hideBlurTooltip, 3000);
-            }
-        });
-    }
 }
 
-// Tooltip functions for blurred event details
-function showBlurTooltip() {
+// Set up tooltip for blurred content
+function setupBlurTooltip() {
+    // Target all elements with blur-content class
+    const blurredElements = document.querySelectorAll('.blur-content');
+    
+    blurredElements.forEach(element => {
+        // Ensure the element has position:relative for tooltip positioning
+        element.style.position = 'relative';
+        
+        // Add event listeners for hover and click
+        element.addEventListener('mouseenter', () => showBlurTooltip(element));
+        element.addEventListener('mouseleave', () => hideBlurTooltip(element));
+        
+        // Also toggle tooltip on click (auto-hide after 3 seconds)
+        element.addEventListener('click', () => {
+            const tooltipId = `blur-tooltip-${element.id || 'default'}`;
+            const existingTooltip = document.getElementById(tooltipId);
+            
+            if (existingTooltip) {
+                hideBlurTooltip(element);
+            } else {
+                showBlurTooltip(element);
+                setTimeout(() => hideBlurTooltip(element), 3000);
+            }
+        });
+    });
+}
+
+// Tooltip functions for blurred content
+function showBlurTooltip(element) {
+    const tooltipId = `blur-tooltip-${element.id || 'default'}`;
+    
     // Avoid adding duplicate tooltip elements
-    if (document.getElementById('blur-tooltip')) return;
+    if (document.getElementById(tooltipId)) return;
 
     const tooltip = document.createElement('div');
-    tooltip.id = 'blur-tooltip';
+    tooltip.id = tooltipId;
+    tooltip.className = 'blur-tooltip';
     tooltip.textContent = "Blurry for now… but those who inspect closely might see more. 😉";
 
-    // Style the tooltip (feel free to adjust as needed)
+    // Style the tooltip
     tooltip.style.position = 'absolute';
     tooltip.style.bottom = '100%';
     tooltip.style.left = '50%';
@@ -208,14 +224,14 @@ function showBlurTooltip() {
     tooltip.style.whiteSpace = 'nowrap';
     tooltip.style.zIndex = '100';
     tooltip.style.pointerEvents = 'none'; // so it doesn't block mouse events
+    tooltip.style.marginBottom = '5px'; // add some space between tooltip and element
 
-    // Ensure the parent element is positioned relative for proper tooltip placement
-    venueDetails.style.position = 'relative';
-    venueDetails.appendChild(tooltip);
+    element.appendChild(tooltip);
 }
 
-function hideBlurTooltip() {
-    const tooltip = document.getElementById('blur-tooltip');
+function hideBlurTooltip(element) {
+    const tooltipId = `blur-tooltip-${element.id || 'default'}`;
+    const tooltip = document.getElementById(tooltipId);
     if (tooltip) {
         tooltip.remove();
     }
