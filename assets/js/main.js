@@ -171,70 +171,80 @@ function setupEventListeners() {
     }
 }
 
-// Set up tooltip for blurred content
+// Revised Tooltip System
 function setupBlurTooltip() {
-    // Target all elements with blur-content class
     const blurredElements = document.querySelectorAll('.blur-content');
     
     blurredElements.forEach(element => {
-        // Ensure the element has position:relative for tooltip positioning
         element.style.position = 'relative';
         
-        // Add event listeners for hover and click
-        element.addEventListener('mouseenter', () => showBlurTooltip(element));
-        element.addEventListener('mouseleave', () => hideBlurTooltip(element));
-        
-        // Also toggle tooltip on click (auto-hide after 3 seconds)
-        element.addEventListener('click', () => {
-            const tooltipId = `blur-tooltip-${element.id || 'default'}`;
-            const existingTooltip = document.getElementById(tooltipId);
+        // Create overlay if not exists
+        if (!element.querySelector('.blur-overlay')) {
+            const overlay = document.createElement('div');
+            overlay.className = 'blur-overlay';
+            element.appendChild(overlay);
             
-            if (existingTooltip) {
+            // Mouse events with position tracking
+            overlay.addEventListener('mousemove', (e) => {
+                showBlurTooltip(element, e);
+            });
+            
+            overlay.addEventListener('mouseleave', () => {
                 hideBlurTooltip(element);
-            } else {
-                showBlurTooltip(element);
-                setTimeout(() => hideBlurTooltip(element), 3000);
-            }
-        });
+            });
+        }
     });
 }
 
-// Tooltip functions for blurred content
-function showBlurTooltip(element) {
+function showBlurTooltip(element, event) {
     const tooltipId = `blur-tooltip-${element.id || 'default'}`;
+    let tooltip = document.getElementById(tooltipId);
     
-    // Avoid adding duplicate tooltip elements
-    if (document.getElementById(tooltipId)) return;
+    if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = tooltipId;
+        tooltip.className = 'blur-tooltip';
+        
+        // Wrap text in span for better line breaks
+        const tooltipText = document.createElement('span');
+        tooltipText.textContent = "Blurry for now… but those who inspect closely might see more. 😉";
+        tooltip.appendChild(tooltipText);
+        
+        document.body.appendChild(tooltip);
+    }
 
-    const tooltip = document.createElement('div');
-    tooltip.id = tooltipId;
-    tooltip.className = 'blur-tooltip';
-    tooltip.textContent = "Blurry for now… but those who inspect closely might see more. 😉";
+    // Force reflow to ensure proper dimensions
+    void tooltip.offsetHeight;
 
-    // Style the tooltip
-    tooltip.style.position = 'absolute';
-    tooltip.style.bottom = '100%';
-    tooltip.style.left = '50%';
-    tooltip.style.transform = 'translateX(-50%)';
-    tooltip.style.background = 'rgba(0, 0, 0, 0.7)';
-    tooltip.style.color = '#fff';
-    tooltip.style.padding = '5px 10px';
-    tooltip.style.borderRadius = '4px';
-    tooltip.style.fontSize = '12px';
-    tooltip.style.whiteSpace = 'nowrap';
-    tooltip.style.zIndex = '100';
-    tooltip.style.pointerEvents = 'none'; // so it doesn't block mouse events
-    tooltip.style.marginBottom = '5px'; // add some space between tooltip and element
+    // Position calculation
+    const offset = 15;
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
 
-    element.appendChild(tooltip);
+    // Calculate initial position
+    let posX = event.clientX + offset;
+    let posY = event.clientY + offset;
+
+    // Adjust for right edge
+    if (posX + tooltipRect.width > viewportWidth - 20) {
+        posX = event.clientX - tooltipRect.width - offset;
+    }
+
+    // Adjust for bottom edge
+    if (posY + tooltipRect.height > viewportHeight - 20) {
+        posY = event.clientY - tooltipRect.height - offset;
+    }
+
+    // Apply final position
+    tooltip.style.left = `${Math.max(20, posX)}px`;
+    tooltip.style.top = `${Math.max(20, posY)}px`;
 }
 
 function hideBlurTooltip(element) {
     const tooltipId = `blur-tooltip-${element.id || 'default'}`;
     const tooltip = document.getElementById(tooltipId);
-    if (tooltip) {
-        tooltip.remove();
-    }
+    if (tooltip) tooltip.remove();
 }
 
 // Validate invite code using JSONP
