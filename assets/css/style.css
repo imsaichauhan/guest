@@ -409,7 +409,7 @@ nav {
 .blur-content {
     filter: blur(5px);
     transition: filter 1s ease;
-    pointer-events: none;
+    pointer-events: auto;
     user-select: none;
 }
 
