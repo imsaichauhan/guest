@@ -21,7 +21,7 @@
     let currentPhotoIndex = 0;
 
     // Auto-play settings
-    const autoPlayInterval = 2000; // 2 seconds
+    const autoPlayInterval = 2500; // 2.5 seconds
     let autoPlayTimer;
     let isAutoPlaying = true;
 
