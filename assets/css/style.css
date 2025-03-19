@@ -406,11 +406,12 @@ nav {
 }
 
 /* Blur Content for Venue Details */
+/* New overlay for click-to-reveal */
 .blur-content {
     filter: blur(5px);
     transition: filter 1s ease;
-    pointer-events: auto;
     user-select: none;
+    position: relative;
 }
 
 .blur-content.revealed {
@@ -419,35 +420,63 @@ nav {
     user-select: text;
 }
 
-.venue-details {
-    position: relative;
+.blur-content a {
+    pointer-events: none;
 }
 
-.reveal-message {
+.blur-content.revealed a {
+    pointer-events: auto;
+}
+
+.blur-overlay {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 15px;
-    border-radius: var(--border-radius);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background-color: transparent;
+    z-index: 100;
+}
+
+.blur-tooltip {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: var(--font-primary);
+    z-index: 1000;
+    pointer-events: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease forwards;
+    max-width: 300px;
     text-align: center;
-    font-weight: 600;
-    color: var(--primary-color);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    line-height: 1.5;
+    white-space: normal; /* Changed from nowrap */
+    width: max-content; /* Added for proper sizing */
 }
 
-.reveal-btn {
-    margin: 20px 0;
+.blur-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
 }
 
-.surprise-details {
-    background-color: #fff9e6;
-    border-left: 4px solid #f39c12;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 20px;
+.blur-tooltip span {
+    display: inline-block;
+    padding: 2px 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Photo Section */
@@ -480,8 +509,8 @@ nav {
 
 .carousel-image {
     width: 100%;
-    aspect-ratio: 1/1; /* This ensures 1:1 aspect ratio */
-    object-fit: cover; /* Changed to cover for better image filling */
+    aspect-ratio: 1/1;
+    object-fit: cover;
     display: block;
 }
 
@@ -814,22 +843,4 @@ nav {
         transform: translateY(-100vh) translateX(100px);
         opacity: 0;
     }
-}
-
-/* Tooltip styles for blurred content */
-.blur-tooltip {
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    z-index: 100;
-    pointer-events: none;
-    margin-bottom: 5px;
-    animation: fadeIn 0.3s ease forwards;
 }
