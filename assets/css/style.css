@@ -858,3 +858,12 @@ nav {
         margin-top: 20px;
     }
 }
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;        /* Now it goes edge-to-edge on mobile */
+    max-width: 1200px;  /* Still limits on bigger screens */
+    margin: 0 auto;     /* Keeps it centered on tablets, etc. */
+    padding: 8%;        /* Generous padding without feeling cramped */
+  }
+}
