@@ -99,6 +99,11 @@ function init() {
     // Check if venue details should be revealed from the start
     if (CONFIG.REVEAL_VENUE && venueDetails) {
         venueDetails.classList.add('revealed');
+        // Remove blur overlay if it exists
+        const overlay = venueDetails.querySelector('.blur-overlay');
+        if (overlay) {
+            overlay.remove();
+        }
         if (venueRevealControls) {
             venueRevealControls.classList.add('hidden');
         }
@@ -131,6 +136,11 @@ function setupEventListeners() {
     if (revealVenueBtn && venueDetails && !CONFIG.REVEAL_VENUE) {
         revealVenueBtn.addEventListener('click', () => {
             venueDetails.classList.add('revealed');
+            // Remove blur overlay
+            const overlay = venueDetails.querySelector('.blur-overlay');
+            if (overlay) {
+                overlay.remove();
+            }
             venueRevealControls.classList.add('hidden');
         });
     }
@@ -176,6 +186,11 @@ function setupBlurTooltip() {
     const blurredElements = document.querySelectorAll('.blur-content');
     
     blurredElements.forEach(element => {
+        // Skip if already revealed
+        if (element.classList.contains('revealed')) {
+            return;
+        }
+        
         element.style.position = 'relative';
         
         // Create overlay if not exists
