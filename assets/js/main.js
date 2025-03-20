@@ -32,7 +32,11 @@ function createBalloons() {
     const colors = ['#FF6B6B', '#4ECDC4', '#FFD166', '#62CBFF', '#A782FD'];
     const sizes = [40, 50, 60, 70, 80];
 
-    for (let i = 0; i < 8; i++) {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const balloonCount = isMobile ? 2 : 8;
+
+
+    for (let i = 0; i < balloonCount; i++) {
         const balloon = document.createElement('div');
         balloon.className = 'balloon';
 
