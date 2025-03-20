@@ -406,7 +406,6 @@ nav {
 }
 
 /* Blur Content for Venue Details */
-/* New overlay for click-to-reveal */
 .blur-content {
     filter: blur(5px);
     transition: filter 1s ease;
@@ -426,6 +425,12 @@ nav {
 
 .blur-content.revealed a {
     pointer-events: auto;
+}
+
+/* Added overlay handling */
+.blur-content.revealed .blur-overlay {
+    display: none;
+    pointer-events: none;
 }
 
 .blur-overlay {
@@ -454,8 +459,8 @@ nav {
     max-width: 300px;
     text-align: center;
     line-height: 1.5;
-    white-space: normal; /* Changed from nowrap */
-    width: max-content; /* Added for proper sizing */
+    white-space: normal;
+    width: max-content;
 }
 
 .blur-tooltip::after {
@@ -467,11 +472,6 @@ nav {
     border-width: 8px;
     border-style: solid;
     border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
-}
-
-.blur-tooltip span {
-    display: inline-block;
-    padding: 2px 0;
 }
 
 @keyframes fadeIn {
@@ -488,7 +488,7 @@ nav {
 .carousel-container {
     position: relative;
     width: 100%;
-    max-width: 500px; /* Limit width on desktop */
+    max-width: 500px;
     margin: 0 auto;
     height: auto;
     overflow: hidden;
@@ -725,16 +725,14 @@ nav {
         font-size: 1.5rem;
     }
     
-    /* Make carousel full width on mobile */
     .carousel-container {
         max-width: 100%;
     }
     
-    /* Mobile Navigation */
     .nav-links {
         flex-direction: column;
         text-align: center;
-        display: none; /* Hidden by default on mobile */
+        display: none;
     }
     
     .nav-links.active {
@@ -817,7 +815,6 @@ nav {
     animation: balloonRise 12s linear infinite;
 }
 
-/* Add missing fadeIn animation if used in the document */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -827,7 +824,6 @@ nav {
     }
 }
 
-/* Add missing balloonRise animation if used */
 @keyframes balloonRise {
     0% {
         transform: translateY(0) translateX(0);
