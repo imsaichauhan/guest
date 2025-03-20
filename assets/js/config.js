@@ -13,7 +13,7 @@ const CONFIG = {
         ITEMS: "A+ for effort, but no spoilers! Just bring your party energy when it’s time!",
     },
     // Countdown target date (YYYY, MM-1, DD, HH, MM, SS)
-    TARGET_DATE: new Date(2025, 2, 25, 11, 30, 0), // March 25, 2025, 12:00 PM
+    TARGET_DATE: new Date(2025, 2, 25, 11, 30, 0), // March 25, 2025, 11:30 AM
     // New flag to control venue details reveal manually from backend
-    REVEAL_VENUE: false // Set to true from backend when ready to unblur
+    REVEAL_VENUE: true // Set to true from backend when ready to unblur
 };
