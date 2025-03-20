@@ -840,3 +840,21 @@ nav {
         opacity: 0;
     }
 }
+
+@media (max-width: 768px) {
+    /* 1. Increase Left & Right Padding */
+    .container {
+        padding: 8%;
+    }
+
+    /* 2 & 3. Font Size Balance & Better Line Spacing */
+    .subtitle {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    /* 4. Countdown Spacing */
+    .countdown {
+        margin-top: 20px;
+    }
+}
