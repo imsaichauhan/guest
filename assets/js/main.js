@@ -88,7 +88,7 @@ function init() {
     eventVenue.textContent = CONFIG.EVENT.VENUE;
     mapsLink.href = CONFIG.EVENT.GOOGLE_MAPS;
 
-    // NEW: Set the venue video link if available
+    // Set the venue video link if available
     const venueVideoLink = document.getElementById('venue-video-link');
     if (venueVideoLink) {
         venueVideoLink.href = CONFIG.EVENT.VENUE_VIDEO;
@@ -222,7 +222,7 @@ function showBlurTooltip(element, event) {
         
         // Wrap text in span for better line breaks
         const tooltipText = document.createElement('span');
-        tooltipText.textContent = "Almost there… Details unlock in just a little while! ⏳";
+        tooltipText.textContent = "Blurry for now… but those who inspect closely might see more. 😉";
         tooltip.appendChild(tooltipText);
         
         document.body.appendChild(tooltip);
@@ -318,6 +318,14 @@ function handleInviteCodeResponse(data) {
     // Add success animation before switching screens
     setTimeout(() => {
         guestNameElement.textContent = data.name;
+        // Check if the guest is the birthday girl and override the WhatsApp link
+        if (data.name === 'The Pure Joy in Human Form') {
+            CONFIG.WHATSAPP_LINK = 'https://chat.whatsapp.com/HJ95aGEzGiv2gRs6JZlc0S';
+            const whatsappLink = document.getElementById('whatsapp-link');
+            if (whatsappLink) {
+                whatsappLink.href = CONFIG.WHATSAPP_LINK;
+            }
+        }
         loginSection.classList.remove('active');
         welcomeSection.classList.add('active');
         welcomeSection.classList.add('fade-in');
