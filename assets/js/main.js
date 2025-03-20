@@ -222,7 +222,7 @@ function showBlurTooltip(element, event) {
         
         // Wrap text in span for better line breaks
         const tooltipText = document.createElement('span');
-        tooltipText.textContent = "Blurry for now… but those who inspect closely might see more. 😉";
+        tooltipText.textContent = "Almost there… Details unlock in just a little while! ⏳";
         tooltip.appendChild(tooltipText);
         
         document.body.appendChild(tooltip);
