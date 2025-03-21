@@ -15,6 +15,10 @@ const submitRsvpBtn = document.getElementById('submit-rsvp');
 const rsvpMessage = document.getElementById('rsvp-message');
 const whatsappContainer = document.getElementById('whatsapp-container');
 const whatsappLink = document.getElementById('whatsapp-link');
+// NEW: Spotify DOM Elements
+const spotifyContainer = document.getElementById('spotify-container');
+const spotifyLink = document.getElementById('spotify-link');
+
 const eventDatetime = document.getElementById('event-datetime');
 const eventVenue = document.getElementById('event-venue');
 const mapsLink = document.getElementById('maps-link');
@@ -34,7 +38,6 @@ function createBalloons() {
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     const balloonCount = isMobile ? 2 : 8;
-
 
     for (let i = 0; i < balloonCount; i++) {
         const balloon = document.createElement('div');
@@ -322,6 +325,7 @@ function handleInviteCodeResponse(data) {
     // Add success animation before switching screens
     setTimeout(() => {
         guestNameElement.textContent = data.name;
+
         // Check if the guest is the birthday girl and override the WhatsApp link
         if (data.name === 'The Pure Joy in Human Form') {
             CONFIG.WHATSAPP_LINK = 'https://chat.whatsapp.com/HJ95aGEzGiv2gRs6JZlc0S';
@@ -330,6 +334,21 @@ function handleInviteCodeResponse(data) {
                 whatsappLink.href = CONFIG.WHATSAPP_LINK;
             }
         }
+
+        // NEW: Conditionally display Spotify playlist link for guests
+        if (data.name !== 'The Pure Joy in Human Form') {
+            if (spotifyContainer) {
+                spotifyContainer.classList.remove('hidden');
+            }
+            if (spotifyLink) {
+                spotifyLink.href = 'https://open.spotify.com/playlist/2AX0HBpOfjCeEFc95JTD01?si=fXb2b2vkTgmoD41A7UF1mQ&pt=8530fa3cf27624537eb062b298dad69b&pi=OKdBXREbQja3m'; 
+            }
+        } else {
+            if (spotifyContainer) {
+                spotifyContainer.classList.add('hidden');
+            }
+        }
+
         loginSection.classList.remove('active');
         welcomeSection.classList.add('active');
         welcomeSection.classList.add('fade-in');
