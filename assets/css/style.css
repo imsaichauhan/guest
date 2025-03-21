@@ -867,3 +867,52 @@ nav {
     padding: 2.5%;        /* Generous padding without feeling cramped */
   }
 }
+
+/* Spotify Playlist Section Styles */
+.spotify-group {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.spotify-group h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.spotify-group p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.spotify-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease, box-shadow 0.2s;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.spotify-btn:hover {
+    background-color: #1ed760;
+    transform: translateY(-2px);
+}
+
+.spotify-logo {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
